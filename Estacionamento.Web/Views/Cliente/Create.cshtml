@@ -1,0 +1,43 @@
+﻿@using Estacionamento.Domain.Clientes;
+@model Cliente
+@{
+    ViewBag.Title = "Cliente";
+}
+@section scripts{
+    <script src=""></script>
+}
+<form asp-controller="Cliente" asp-action="Criar" method="post">
+    <div>
+        <h3>@ViewBag.Title</h3>
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <div class="form-group">
+                        <label for="Nome">Nome</label>
+                        <input type="hidden" asp-for="Id" id="tipo">
+                        <input type="text" asp-for="Name" class="form-control" id="Nome" placeholder="Nome">
+                        @Html.ValidationMessageFor(q => q.Name)
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="Carro">Carro</label>
+                        <input type="text" asp-for="Carro" class="form-control" id="Carro" placeholder="Carro">
+                        @Html.ValidationMessageFor(q => q.Carro)
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="Email">E-mail</label>
+                        <input type="text" asp-for="Email" class="form-control" id="Email" placeholder="Email">
+                        @Html.ValidationMessageFor(q => q.Email)
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-block">Adicionar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
