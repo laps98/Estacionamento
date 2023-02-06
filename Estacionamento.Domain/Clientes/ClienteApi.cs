@@ -1,4 +1,5 @@
 ﻿using Estacionamento.Domain.Context;
+using System;
 
 namespace Estacionamento.Domain.Clientes;
 
@@ -7,6 +8,8 @@ public interface IClienteApi
     public List<Cliente> List();
 
     public void Save(Cliente cliente);
+
+    public void Update(Cliente cliente);
 
     public Cliente Get(int id);
 
@@ -30,9 +33,21 @@ internal class ClienteApi : IClienteApi
 
     public void Save(Cliente cliente)
     {
+        try
+        { 
+        _context.Clientes.Add(cliente);
+        _context.SaveChanges();
+        }catch (Exception)
+        {
+            throw new Exception("Faltam campos a serem preenchidos");
+        }
+    }
+
+    public void Update(Cliente cliente)
+    {
         if (cliente.Id == 0)
         {
-            _context.Clientes.Add(cliente);
+            throw new Exception("Erro inesperado ao atualizar Cliente");
         }
         else
         {

@@ -18,32 +18,39 @@ public class ClienteController : Controller
         return View(_api.List());
     }
 
-    public IActionResult Create(Cliente cliente)
+
+    public IActionResult Create(int id = 0)
     {
-        if (cliente.Id != 0)
+        if (id != 0)
         {
-            return View(_api.Get(cliente.Id));
+            return View(_api.Get(id));
         }
 
-        return View(cliente);
+        return View();
     }
 
     [HttpPost]
-    public IActionResult Criar(Cliente cliente)
+    public IActionResult Create(Cliente cliente)
     {
         try
         {
-            if (ModelState.IsValid)
+            if(cliente.Id == 0)
             {
                 _api.Save(cliente);
                 TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
+                return RedirectToAction("Index");
+            }
+            if (ModelState.IsValid)
+            {
+                _api.Update(cliente);
+                TempData["MensagemSucesso"] = "Contato alterado com sucesso";
                 return RedirectToAction("Index");
             }
             return View("Create", cliente);
         }
         catch (Exception ex)
         {
-            TempData["MensagemErro"] = "Contato cadastrado com sucesso";
+            //TempData["MensagemErro"] = ex;
             return View("Create", cliente);
         }
     }
