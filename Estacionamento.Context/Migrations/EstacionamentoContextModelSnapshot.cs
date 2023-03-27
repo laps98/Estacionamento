@@ -27,15 +27,44 @@ namespace Estacionamento.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Carro")
+                    b.Property<string>("Bairro")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cep")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Complemento")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("IdCarro")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Logradouro")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Observacao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Uf")
                         .IsRequired()
                         .HasColumnType("longtext");
 

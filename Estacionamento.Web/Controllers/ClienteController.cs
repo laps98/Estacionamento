@@ -50,7 +50,7 @@ public class ClienteController : Controller
         }
         catch (Exception ex)
         {
-            //TempData["MensagemErro"] = ex;
+            TempData["MensagemErro"] = ex;
             return View("Create", cliente);
         }
     }

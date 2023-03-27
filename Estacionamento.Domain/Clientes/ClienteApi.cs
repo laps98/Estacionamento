@@ -37,9 +37,8 @@ internal class ClienteApi : IClienteApi
         { 
         _context.Clientes.Add(cliente);
         _context.SaveChanges();
-        }catch (Exception)
-        {
-            throw new Exception("Faltam campos a serem preenchidos");
+        }catch(Exception){
+            throw new Exception();
         }
     }
 

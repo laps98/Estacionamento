@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Estacionamento.Context.Migrations
 {
     [DbContext(typeof(EstacionamentoContext))]
-    [Migration("20230131220106_MigrationInicial ")]
+    [Migration("20230327230658_MigrationInicial")]
     partial class MigrationInicial
     {
         /// <inheritdoc />
@@ -30,15 +30,44 @@ namespace Estacionamento.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Carro")
+                    b.Property<string>("Bairro")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cep")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Complemento")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("IdCarro")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Logradouro")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Observacao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Uf")
                         .IsRequired()
                         .HasColumnType("longtext");
 
