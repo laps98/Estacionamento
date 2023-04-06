@@ -3,7 +3,7 @@ using System;
 
 namespace Estacionamento.Domain.Clientes;
 
-public interface IClienteApi
+public interface IClienteRepository
 {
     public List<Cliente> List();
 
@@ -17,11 +17,11 @@ public interface IClienteApi
 
 }
 
-internal class ClienteApi : IClienteApi
+internal class ClienteRepository : IClienteRepository
 {
     private readonly IEstacionamentoContext _context;
 
-    public ClienteApi(IEstacionamentoContext context)
+    public ClienteRepository(IEstacionamentoContext context)
     {
         _context = context;
     }

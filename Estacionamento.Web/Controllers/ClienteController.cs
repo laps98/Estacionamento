@@ -6,9 +6,9 @@ namespace Estacionamento.Web.Controllers;
 
 public class ClienteController : Controller
 {
-    private readonly IClienteApi _api;
+    private readonly IClienteRepository _api;
 
-    public ClienteController(IClienteApi api)
+    public ClienteController(IClienteRepository api)
     {
         _api = api;
     }

@@ -7,7 +7,7 @@ public class Cliente
     public int Id{ get; set;}
 
     //[Required(ErrorMessage = "Campo Carro obrigatório")]
-    public string? IdCarro { get; set; }
+    //public string? IdVeiculo { get; set; }
 
     [Required(ErrorMessage = "Campo nome obrigatório")]
     public string Name { get; set; }
@@ -37,4 +37,6 @@ public class Cliente
     public string? Complemento { get; set; }
 
     public string? Observacao { get; set; }
+
+
 }

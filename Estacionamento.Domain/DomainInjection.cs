@@ -17,6 +17,6 @@ public static class DomainInjection
 
     private static void Clientes()
     {
-        _service.AddTransient<IClienteApi, ClienteApi>();
+        _service.AddTransient<IClienteRepository, ClienteRepository>();
     }
 }
