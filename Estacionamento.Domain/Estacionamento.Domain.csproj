@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Veiculos\" />
     <Folder Include="Usuarios\" />
-    <Folder Include="TabelasDePreco\" />
   </ItemGroup>
 
 </Project>

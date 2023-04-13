@@ -1,4 +1,5 @@
 ﻿using Estacionamento.Domain.Enums;
+using Estacionamento.Domain.MovimentacoesDeCaixa;
 using System.ComponentModel.DataAnnotations;
 
 namespace Estacionamento.Domain.MovimentacoesDeVeiculo;
@@ -17,4 +18,6 @@ public class MovimentacaoDeVeiculo
 
     public DateTime DataDeSaida { get; set; }
 
+
+    public virtual ICollection<MovimentacaoDeCaixa> MovimentacoesDeCaixa { get; set; } = new HashSet<MovimentacaoDeCaixa>();
 }
