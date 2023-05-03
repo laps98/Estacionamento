@@ -8,6 +8,6 @@ internal class TabelaDePrecoTypeConfiguration : IEntityTypeConfiguration<TabelaD
 {
     public void Configure(EntityTypeBuilder<TabelaDePreco> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(q => q.Id);
     }
 }

@@ -1,21 +1,22 @@
 ﻿using Estacionamento.Domain.Clientes;
 using Estacionamento.Domain.Context;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Estacionamento.Web.Controllers;
 
 public class ClienteController : Controller
 {
-    private readonly IClienteRepository _api;
+    private readonly IEstacionamentoContext _context;
 
-    public ClienteController(IClienteRepository api)
+    public ClienteController(IClienteRepository api, IEstacionamentoContext context)
     {
-        _api = api;
+        _context = context;
     }
 
     public IActionResult Index()
     {
-        return View(_api.List());
+        return View(List());
     }
 
 
@@ -23,7 +24,7 @@ public class ClienteController : Controller
     {
         if (id != 0)
         {
-            return View(_api.Get(id));
+            return View(Get(id));
         }
 
         return View();
@@ -36,13 +37,13 @@ public class ClienteController : Controller
         {
             if(cliente.Id == 0)
             {
-                _api.Save(cliente);
+                Save(cliente);
                 TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             if (ModelState.IsValid)
             {
-                _api.Update(cliente);
+                Update(cliente);
                 TempData["MensagemSucesso"] = "Contato alterado com sucesso";
                 return RedirectToAction("Index");
             }
@@ -59,7 +60,7 @@ public class ClienteController : Controller
     {
         try
         {
-            _api.Delete(id);
+            Delete(id);
             TempData["MensagemSucesso"] = "Item deletado com sucesso";
             return RedirectToAction("Index");
         }
@@ -70,5 +71,51 @@ public class ClienteController : Controller
             return RedirectToAction("Index");
         }
 
+    }
+
+    public void Save(Cliente cliente)
+    {
+        try
+        {
+            _context.Clientes.Add(cliente);
+            _context.SaveChanges();
+        }
+        catch (Exception)
+        {
+            throw new Exception();
+        }
+    }
+
+    public void Update(Cliente cliente)
+    {
+        if (cliente.Id == 0)
+        {
+            throw new Exception("Erro inesperado ao atualizar Cliente");
+        }
+        else
+        {
+            _context.Clientes.Update(cliente);
+        }
+        _context.SaveChanges();
+    }
+
+    public Cliente Get(int id)
+    {
+        return _context.Clientes.First(q => q.Id == id);
+    }
+
+    public void Delete(int id)
+    {
+        var cliente = _context.Clientes.FirstOrDefault(q => q.Id == id);
+        if (cliente == null)
+            throw new Exception("Este cliente não existe");
+
+        _context.Clientes.Remove(cliente);
+        _context.SaveChanges();
+    }
+
+    public List<Cliente> List()
+    {
+        return _context.Clientes.ToList();
     }
 }

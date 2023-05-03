@@ -10,7 +10,6 @@ internal class MovimentacaoDeVeiculoTypeConfiguration : IEntityTypeConfiguration
     {
         builder.HasKey(q => q.Id);
 
-        //builder.Property(q => q.IdMovimentacaoDeVeiculo).IsRequired(false);
-        //builder.Property(q => q.IdTabelaDePerco).IsRequired(false);
+
     }
 }

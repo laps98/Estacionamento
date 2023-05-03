@@ -1,5 +1,4 @@
-﻿using Estacionamento.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Estacionamento.Domain.TabelasDePreco;
 

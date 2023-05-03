@@ -1,0 +1,45 @@
+﻿@using Estacionamento.Domain.MovimentacoesDeVeiculo;
+@model List<MovimentacaoDeVeiculo>
+@{
+    ViewBag.Title = "Circulação";
+}
+@section scripts{
+
+}
+<div>
+    <div class="row">
+        <div class="col-6">
+            <h3>@ViewBag.Title</h3>
+        </div>
+        <div class="col-6 d-flex flex-column align-items-end">
+            <a class="btn btn-success" asp-controller="Cliente" asp-action="Create"><i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Movimentação</th>
+                <th scope="col">Entrada</th>
+                <th scope="col">Saída</th>
+            </tr>
+        </thead>
+        <tbody>
+           @if(Model != null && Model.Any())
+           {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Descricao</td>
+                        <td>@item.Fluxo</td>
+                        <td>@item.DataDeEntrada.ToShortDateString()</td>
+                        <td>@item.DataDeSaida.ToShortDateString()</td>
+                    </tr>
+                }
+           } 
+        </tbody>
+    </table>
+</div>

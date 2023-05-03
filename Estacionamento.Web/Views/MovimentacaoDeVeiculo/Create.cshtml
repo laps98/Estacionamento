@@ -1,0 +1,102 @@
+﻿@*@using Estacionamento.Domain.MovimentacoesDeVeiculo;
+@model MovimentacaoDeVeiculo
+@{
+    ViewBag.Title = "Movimentação de veículo";
+}
+@section scripts{
+    <script src=""></script>
+}
+<form asp-controller="Cliente" asp-action="Create" method="post">
+    <input type="hidden" asp-for="Id">
+    <div>
+        <h3>@ViewBag.Title</h3>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="Nome">Nome</label>
+                            <input type="text" asp-for="Descricao" class="form-control" id="Descricao" placeholder="Descricao">
+                            @Html.ValidationMessageFor(q => q.Descricao)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="Email">E-mail</label>
+                            <input type="text" asp-for="Email" class="form-control" id="Email" placeholder="Email">
+                            @Html.ValidationMessageFor(q => q.Email)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mt-3">
+                        <div class="form-group">
+                            <label for="Cep">Cep</label>
+                            <input type="text" asp-for="Cep" class="form-control" id="Cep" placeholder="Cep">
+                            @Html.ValidationMessageFor(q => q.Cep)
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-3">
+                        <div class="form-group">
+                            <label for="Complemento">Complemento</label>
+                            <input type="text" asp-for="Complemento" class="form-control" id="Complemento" placeholder="Complemento">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mt-3">
+                        <div class="form-group">
+                            <label for="Logradouro">Logradouro</label>
+                            <input type="text" asp-for="Logradouro" class="form-control" id="Logradouro" placeholder="Logradouro">
+                            @Html.ValidationMessageFor(q => q.Logradouro)
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-3">
+                        <div class="form-group">
+                            <label for="Numero">Numero</label>
+                            <input type="text" asp-for="Numero" class="form-control" id="Numero" placeholder="Numero">
+                            @Html.ValidationMessageFor(q => q.Numero)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 mt-3">
+                        <div class="form-group">
+                            <label for="Logradouro">Bairro</label>
+                            <input type="text" asp-for="Bairro" class="form-control" id="Bairro" placeholder="Bairro">
+                            @Html.ValidationMessageFor(q => q.Bairro)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-3">
+                        <div class="form-group">
+                            <label for="Cidade">Cidade</label>
+                            <input type="text" asp-for="Cidade" class="form-control" id="Cidade" placeholder="Cidade">
+                            @Html.ValidationMessageFor(q => q.Cidade)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-3">
+                        <div class="form-group">
+                            <label for="Uf">Uf</label>
+                            <input type="text" asp-for="Uf" class="form-control" id="Uf" placeholder="Uf">
+                            @Html.ValidationMessageFor(q => q.Uf)
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group  mt-3">
+                        <label for="Carro">Observacao</label>
+                        <input type="text" asp-for="Observacao" class="form-control" id="Observacao" placeholder="Observacao">
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary btn-block">Adicionar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+*@
