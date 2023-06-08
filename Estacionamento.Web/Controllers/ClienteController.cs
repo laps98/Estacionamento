@@ -1,5 +1,6 @@
 ﻿using Estacionamento.Domain.Clientes;
 using Estacionamento.Domain.Context;
+using Estacionamento.Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ public class ClienteController : Controller
 
     public IActionResult Index()
     {
-        return View(List());
+        return View(Buscar());
     }
 
 
@@ -114,8 +115,15 @@ public class ClienteController : Controller
         _context.SaveChanges();
     }
 
-    public List<Cliente> List()
+    public ListCliente Buscar(int porPagina, int paginaCorrente)
     {
-        return _context.Clientes.ToList();
+        var lista  = _context.Clientes.Skip((paginaCorrente - 1) * porPagina).Take(porPagina).ToList();
+        var contador = _context.Clientes.Count();
+
+        return new ListCliente
+        {
+            Clientes = lista,
+            Contador = contador,
+        };
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using Estacionamento.Domain.Clientes;
-@model List<Cliente>
+@using Estacionamento.Domain.ViewModel;
+@model ListCliente
 @{
     ViewBag.Title = "Cliente";
 }
@@ -27,9 +28,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
+            @if (Model != null && Model.Clientes.Any())
             {
-                foreach (var item in Model)
+                foreach (var item in Model.Clientes)
                 {
                     <tr>
                         <th scope="row">@item.Id</th>
