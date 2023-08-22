@@ -17,7 +17,7 @@ public class ClienteController : Controller
 
     public IActionResult Index()
     {
-        return View(Buscar());
+        return View(Buscar(10,1));
     }
 
 
