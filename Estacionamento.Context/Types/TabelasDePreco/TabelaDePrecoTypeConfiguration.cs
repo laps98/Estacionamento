@@ -9,5 +9,7 @@ internal class TabelaDePrecoTypeConfiguration : IEntityTypeConfiguration<TabelaD
     public void Configure(EntityTypeBuilder<TabelaDePreco> builder)
     {
         builder.HasKey(q => q.Id);
+
+        builder.Property(q => q.Valor).HasPrecision(5,2);
     }
 }

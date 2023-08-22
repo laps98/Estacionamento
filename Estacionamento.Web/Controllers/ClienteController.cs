@@ -2,7 +2,6 @@
 using Estacionamento.Domain.Context;
 using Estacionamento.Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Estacionamento.Web.Controllers;
 
@@ -10,7 +9,7 @@ public class ClienteController : Controller
 {
     private readonly IEstacionamentoContext _context;
 
-    public ClienteController(IClienteRepository api, IEstacionamentoContext context)
+    public ClienteController(IEstacionamentoContext context)
     {
         _context = context;
     }
@@ -115,7 +114,7 @@ public class ClienteController : Controller
         _context.SaveChanges();
     }
 
-    public ListCliente Buscar(int porPagina, int paginaCorrente)
+    public ListCliente Buscar(int porPagina = 10, int paginaCorrente = 1)
     {
         var lista  = _context.Clientes.Skip((paginaCorrente - 1) * porPagina).Take(porPagina).ToList();
         var contador = _context.Clientes.Count();
