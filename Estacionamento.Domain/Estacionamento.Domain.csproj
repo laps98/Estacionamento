@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Usuarios\**" />
+    <Compile Remove="Veiculos\**" />
+    <EmbeddedResource Remove="Usuarios\**" />
+    <EmbeddedResource Remove="Veiculos\**" />
+    <None Remove="Usuarios\**" />
+    <None Remove="Veiculos\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -20,11 +29,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Veiculos\" />
-    <Folder Include="Usuarios\" />
   </ItemGroup>
 
 </Project>

@@ -44,14 +44,14 @@
     <div class="container">
         @if (TempData["MensagemSucesso"] != null)
         {
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success timer" role="alert">
                 <button type="button" class="btn btn-danger btn-sm close-alert"></button>
                 @TempData["MensagemSucesso"]
             </div>
         }
         @if (TempData["MensagemErro"] != null)
         {
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger timer" role="alert">
                 <button type="button" class="btn btn-danger btn-sm close-alert"></button>
                 @TempData["MensagemErro"]
             </div>

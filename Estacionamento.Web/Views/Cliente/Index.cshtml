@@ -1,11 +1,12 @@
 ﻿@using Estacionamento.Domain.Clientes;
 @using Estacionamento.Domain.ViewModel;
-@model ListCliente
+@using Estacionamento.Web.Helpers;
+@using static Estacionamento.Web.Controllers.ClienteController;
+@model ResponsePagination<Cliente>
 @{
     ViewBag.Title = "Cliente";
 }
 @section scripts{
-    <script src=""></script>
 }
 <div>
     <div class="row">
@@ -28,15 +29,15 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Clientes.Any())
+            @if (Model != null && Model.Any())
             {
-                foreach (var item in Model.Clientes)
+                foreach (var item in Model)
                 {
                     <tr>
                         <th scope="row">@item.Id</th>
                         <td>@item.Name</td>
                         <td>@item.Email</td>
-                       @* <td>@item.Carro</td>*@
+                        @* <td>@item.Carro</td>*@
                         <td class="d-flex flex-row-reverse">
                             <div class="d-grid gap-2 d-md-block">
                                 <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Cliente" asp-action="Deletar">Excluir</a>
@@ -48,4 +49,24 @@
             }
         </tbody>
     </table>
+    @*@Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))*@
+
+    @Html.Pagination(Model)
+
+    <nav>
+        @{
+            
+        }
+
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="?currentPage=1&ItemsPerPage=10">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="?currentPage=1&ItemsPerPage=10">1</a></li>
+            <li class="page-item"><a class="page-link" href="?currentPage=2&ItemsPerPage=10">2</a></li>
+            <li class="page-item"><a class="page-link" href="?currentPage=3&ItemsPerPage=10">3</a></li>
+            <li class="page-item"><a class="page-link" href="?currentPage=1&ItemsPerPage=10">Next</a></li>
+        </ul>
+    </nav>
+
+
+
 </div>

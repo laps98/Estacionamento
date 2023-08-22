@@ -1,7 +1,10 @@
 ﻿using Estacionamento.Domain.Clientes;
 using Estacionamento.Domain.Context;
+using Estacionamento.Domain.Pagination;
 using Estacionamento.Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using static Estacionamento.Web.Controllers.ClienteController;
 
 namespace Estacionamento.Web.Controllers;
 
@@ -14,11 +17,10 @@ public class ClienteController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(QueryFilter filter)
     {
-        return View(Buscar(10,1));
+        return View(Buscar(filter));
     }
-
 
     public IActionResult Create(int id = 0)
     {
@@ -35,7 +37,7 @@ public class ClienteController : Controller
     {
         try
         {
-            if(cliente.Id == 0)
+            if (cliente.Id == 0)
             {
                 Save(cliente);
                 TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
@@ -114,15 +116,38 @@ public class ClienteController : Controller
         _context.SaveChanges();
     }
 
-    public ListCliente Buscar(int porPagina = 10, int paginaCorrente = 1)
+    public ResponsePagination<Cliente> Buscar(QueryFilter filter)
     {
-        var lista  = _context.Clientes.Skip((paginaCorrente - 1) * porPagina).Take(porPagina).ToList();
+        var lista = _context.Clientes.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
         var contador = _context.Clientes.Count();
 
-        return new ListCliente
+        return new ResponsePagination<Cliente>(filter)
         {
-            Clientes = lista,
-            Contador = contador,
+            Items = lista,
+            Total = contador,
         };
+    }
+
+
+    public record ResponsePagination<T> : IEnumerable<T> where T : class
+    {
+        public ResponsePagination(QueryFilter queryFilter)
+        {
+            CurrentPage = queryFilter.CurrentPage;
+        }
+
+        public List<T> Items { get; set; }
+        public int Total { get; set; }
+        public int CurrentPage { get; set; }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Items.GetEnumerator();
+        }
     }
 }
