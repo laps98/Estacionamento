@@ -46,15 +46,4 @@ public static class PaginationHelper
     }
 }
 
-public static class PaginationHelperII
-{
-    public static ResponsePagination<T> Paginate<T>(this IQueryable<T> query, QueryFilter filter)
-    {
-        return new ResponsePagination<T>(query, filter);
-    }
 
-    internal static ResponsePagination Paginate(this IQueryable query, QueryFilter filter)
-    {
-        return (ResponsePagination)Activator.CreateInstance(typeof(ResponsePagination<>)!.MakeGenericType(query.ElementType), query, filter);
-    }
-}
