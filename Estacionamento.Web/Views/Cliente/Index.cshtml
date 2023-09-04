@@ -49,7 +49,7 @@
             }
         </tbody>
     </table>
-    @*@Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))*@
+    @*@Html.Pagination(Model, pagina => Url.Action("Index", new { pagina }))*@
 
     @Html.Pagination(Model)
 

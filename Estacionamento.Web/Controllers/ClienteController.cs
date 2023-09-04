@@ -1,10 +1,9 @@
 ﻿using Estacionamento.Domain.Clientes;
 using Estacionamento.Domain.Context;
 using Estacionamento.Domain.Pagination;
-using Estacionamento.Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections;
-using static Estacionamento.Web.Controllers.ClienteController;
 
 namespace Estacionamento.Web.Controllers;
 
@@ -140,6 +139,10 @@ public class ClienteController : Controller
         public int Total { get; set; }
         public int CurrentPage { get; set; }
 
+        public bool HasPreviousPage => CurrentPage > 1;
+
+        public bool HasNextPage => CurrentPage < Total;
+
         public IEnumerator<T> GetEnumerator()
         {
             return Items.GetEnumerator();
@@ -148,6 +151,18 @@ public class ClienteController : Controller
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Items.GetEnumerator();
+        }
+
+        public ResponsePagination<T> Buscar(IQueryable<T> query, QueryFilter filter)
+        {
+            var lista = query.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
+            var contador = lista.Count();
+
+            return new ResponsePagination<T>(filter)
+            {
+                Items = lista,
+                Total = contador,
+            };
         }
     }
 }
