@@ -1,5 +1,52 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Estacionamento.Domain.Clientes;
+@using Estacionamento.Domain.MovimentacoesDeCaixa;
+@model MovimentacaoDeCaixa
 @{
+    ViewBag.Title = "Cliente";
 }
+@section scripts{
+    <script src=""></script>
+}
+<form asp-controller="Cliente" asp-action="Create" method="post">
+    <input type="hidden" asp-for="Id">
+    <div>
+        <h3>@ViewBag.Title</h3>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group mt-3">
+                    <label for="Descricao">Descricao</label>
+                    <input type="text" asp-for="Descricao" class="form-control" id="Descricao" placeholder="Descricao">
+                    @Html.ValidationMessageFor(q => q.Descricao)
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 mt-3">
+                        <div class="form-group">
+                            <label for="Valor">Valor</label>
+                            <input type="text" asp-for="Valor" class="form-control" id="Valor" placeholder="Valor">
+                            @Html.ValidationMessageFor(q => q.Valor)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-3">
+                        <div class="form-group">
+                            <label for="Fluxo">Fluxo</label>
+                            <input type="text" asp-for="Fluxo" class="form-control" id="Fluxo" placeholder="Fluxo">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-3">
+                        <div class="form-group">
+                            <label for="Data">Data</label>
+                            <input type="text" asp-for="Data" class="form-control" id="Data" placeholder="Data">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <button class="btn btn-primary btn-block">Adicionar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
