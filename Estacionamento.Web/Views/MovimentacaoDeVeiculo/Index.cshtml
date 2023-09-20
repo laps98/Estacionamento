@@ -36,7 +36,7 @@
                         <td>@item.Descricao</td>
                         <td>@item.Fluxo</td>
                         <td>@item.DataDeEntrada.ToShortDateString()</td>
-                        <td>@item.DataDeSaida.ToShortDateString()</td>
+                        <td>@(item.DataDeSaida?.ToShortDateString())</td>
                     </tr>
                 }
            } 

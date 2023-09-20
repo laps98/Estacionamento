@@ -3,6 +3,14 @@
 @model MovimentacaoDeVeiculo
 @{
     ViewBag.Title = "Movimentação de veículo";
+    var fluxos = Html.GetEnumSelectList<Fluxo>();
+
+    // if (Model !=null)
+    // {
+    //     var fluxo = fluxos.FirstOrDefault(q => q.Value == ((int)Model.Fluxo).ToString());
+    //     if (fluxo != null)
+    //         fluxo.Selected = true;
+    // }
 }
 @section scripts{
     <script src=""></script>
@@ -17,16 +25,20 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="Nome">Nome</label>
-                            <input type="text" asp-for="Descricao" class="form-control" id="Descricao" placeholder="Descricao">
+                            <input type="text" asp-for="Descricao" class="form-control" placeholder="Descricao">
                             @Html.ValidationMessageFor(q => q.Descricao)
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="Fluxo">Fluxo</label>  
-                            @Html.DropDownList("StudentGender",
-                            Html.GetEnumSelectList<Fluxo>(),
-                            "Select Gender",new { @class = "form-control" })
+
+                            <select asp-for="Fluxo" asp-items="fluxos" class="form-control"></select>
+
+                            @Html.DropDownList(
+                            "StudentGender",
+                            fluxos,
+                            "Select Gender",new { @class = "form-control", aspfor="Fluxo" })
                         </div>
                     </div>
                 </div>
