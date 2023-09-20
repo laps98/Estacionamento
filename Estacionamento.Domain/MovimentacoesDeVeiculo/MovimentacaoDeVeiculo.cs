@@ -14,9 +14,11 @@ public class MovimentacaoDeVeiculo
     [Required(ErrorMessage = "Campo cep obrigatório")]
     public Fluxo Fluxo { get; set; }
 
+    public decimal Valor { get; set; }
+
     public DateTime DataDeEntrada { get; set; }
 
-    public DateTime DataDeSaida { get; set; }
+    public DateTime? DataDeSaida { get; set; }
 
 
     public virtual ICollection<MovimentacaoDeCaixa> MovimentacoesDeCaixa { get; set; } = new HashSet<MovimentacaoDeCaixa>();
