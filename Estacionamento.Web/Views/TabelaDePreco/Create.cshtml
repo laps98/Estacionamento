@@ -1,0 +1,33 @@
+﻿@using Estacionamento.Domain.TabelasDePreco;
+@model TabelaDePreco
+@{
+}
+<form asp-controller="TabelaDePreco" asp-action="Create" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="card">
+        <div class="card-body">
+            <label for="Descricao">Descrição</label>
+            <input type="text" asp-for="Descricao" class="form-control" id="Descricao" />
+
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label for="Valor">Valor</label>
+                    <input type="number" asp-for="Valor" class="form-control" id="Valor" />
+                </div>
+
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Periodo, new { htmlAttributes = new { @class = "form-control", min="0" } })
+                @Html.ValidationMessageFor(model => model.Periodo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</form>
