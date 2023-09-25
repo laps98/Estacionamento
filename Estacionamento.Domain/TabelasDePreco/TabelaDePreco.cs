@@ -12,7 +12,7 @@ public class TabelaDePreco
     [Required(ErrorMessage = "Campo nome obrigatório")]
     public decimal Valor { get; set; }
 
-    public DateTime Data { get; set; } = DateTime.Now;
+    public DateTime Data { get; set; } 
 
     [Display(Name = "Periodo em minutos")]
     public int Periodo { get; set; }

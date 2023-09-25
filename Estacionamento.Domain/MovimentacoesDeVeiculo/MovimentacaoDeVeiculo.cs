@@ -16,7 +16,7 @@ public class MovimentacaoDeVeiculo
 
     public decimal Valor { get; set; }
 
-    public DateTime DataDeEntrada { get; set; }
+    public DateTime DataDeEntrada { get; set; } //todo -> 
 
     public DateTime? DataDeSaida { get; set; }
 
