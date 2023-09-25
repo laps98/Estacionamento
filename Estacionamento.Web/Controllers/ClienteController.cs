@@ -18,7 +18,11 @@ public class ClienteController : Controller
 
     public IActionResult Index(QueryFilter filter)
     {
-        return View(Buscar(filter));
+        var lista = _context.Clientes;
+
+        var request = new ResponsePagination<Cliente>(filter).Buscar(lista,filter);
+
+        return View(request);
     }
 
     public IActionResult Create(int id = 0)
@@ -166,3 +170,4 @@ public class ClienteController : Controller
         }
     }
 }
+

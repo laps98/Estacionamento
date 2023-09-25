@@ -1,4 +1,5 @@
-﻿using Estacionamento.Domain.TabelasDePreco;
+﻿using Estacionamento.Doamin.Helpers;
+using Estacionamento.Domain.TabelasDePreco;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Web.Controllers;
@@ -12,7 +13,9 @@ public class TabelaDePrecoController : Controller
 
     public IActionResult Create()
     {
-
-        return View(new TabelaDePreco());
+       var tabela = new TabelaDePreco {
+       Data = DateTime.Now.Atual()
+    };
+        return View(tabela);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Estacionamento.Domain.Enums;
+﻿using Estacionamento.Doamin.Helpers;
+using Estacionamento.Domain.Enums;
 using Estacionamento.Domain.MovimentacoesDeCaixa;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,15 +9,17 @@ public class MovimentacaoDeVeiculo
 {
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Campo Carro obrigatório")]
-    public string Descricao { get; set; }
+    [Required(ErrorMessage = "Campo Placa obrigatório")]
+    public string Placa { get; set; }
+    public string? Observacao { get; set; }
 
-    [Required(ErrorMessage = "Campo cep obrigatório")]
-    public Fluxo Fluxo { get; set; }
+    public Fluxo Fluxo { get; set; } 
 
     public decimal Valor { get; set; }
 
-    public DateTime DataDeEntrada { get; set; } //todo -> 
+    public Status Status { get; set; }
+
+    public DateTime DataDeEntrada { get; set; } 
 
     public DateTime? DataDeSaida { get; set; }
 
