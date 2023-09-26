@@ -10,6 +10,6 @@ internal class MovimentacaoDeVeiculoTypeConfiguration : IEntityTypeConfiguration
     {
         builder.HasKey(q => q.Id);
 
-
+        builder.HasOne(q => q.TabelaDePreco).WithMany(q => q.MovimentacoesDeVeiculo).HasForeignKey(q => q.IdTabelaDePreco);
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Estacionamento.Domain.MovimentacoesDeCaixa;
+using Estacionamento.Domain.MovimentacoesDeVeiculo;
+using System.ComponentModel.DataAnnotations;
 
 namespace Estacionamento.Domain.TabelasDePreco;
 
@@ -12,8 +14,10 @@ public class TabelaDePreco
     [Required(ErrorMessage = "Campo nome obrigatório")]
     public decimal Valor { get; set; }
 
-    public DateTime Data { get; set; } 
+    public DateTime Data { get; set; }
 
     [Display(Name = "Periodo em minutos")]
     public int Periodo { get; set; }
+
+    public ICollection<MovimentacaoDeVeiculo> MovimentacoesDeVeiculo { get; set; } = new HashSet<MovimentacaoDeVeiculo>();
 }

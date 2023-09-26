@@ -26,5 +26,4 @@ public class MovimentacaoDeCaixa
 
     public virtual MovimentacaoDeVeiculo? MovimentacaoDeVeiculo { get; set; }
 
-    public virtual TabelaDePreco? TabelaDePreco { get; set; }
 }
