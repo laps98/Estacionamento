@@ -1,11 +1,10 @@
 ﻿@using Estacionamento.Domain.Enums;
 @using Estacionamento.Domain.MovimentacoesDeVeiculo;
+@using Newtonsoft.Json;
 @model MovimentacaoDeVeiculo
 @{
     ViewBag.Title = "Movimentação de veículo";
     var fluxos = Html.GetEnumSelectList<Fluxo>();
-
-    var tabelaDePreco = ViewBag.Tabela;
 
     // if (Model !=null)
     // {
@@ -38,22 +37,17 @@
                         <div class="form-group">
                             <label for="Fluxo">Fluxo</label>
 
-                            @* <select asp-for="Fluxo" asp-items="fluxos" class="form-control"></select> *@
-
-                            @*@Html.DropDownList(
-                            "StudentGender",
-                            fluxos,
-                            "Select Gender",new { @class = "form-control", aspfor="Fluxo" }) *@
-
-                            @Html.DropDownListFor(tabelaDePreco => tabelaDePreco, new SelectList(tabelaDePreco, "Id", "Descricao")
-                            , new { @class = "form-control" })
-
+                            <select asp-for="IdTabelaDePreco"
+                                    class="form-control"
+                                    asp-items="@ViewBag.TabelaDePreco">
+                                    <option></option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
-                    @Html.LabelFor(model => model.DataDeEntrada, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.DataDeEntrada, htmlAttributes: new { @class = "control-label" })
                     @Html.EditorFor(model => model.DataDeEntrada, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.DataDeEntrada, "", new { @class = "text-danger" })
                 </div>
