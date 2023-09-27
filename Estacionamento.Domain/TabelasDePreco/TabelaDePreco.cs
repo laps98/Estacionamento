@@ -1,4 +1,5 @@
-﻿using Estacionamento.Domain.MovimentacoesDeCaixa;
+﻿using Estacionamento.Doamin.Helpers;
+using Estacionamento.Domain.MovimentacoesDeCaixa;
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,10 +15,10 @@ public class TabelaDePreco
     [Required(ErrorMessage = "Campo nome obrigatório")]
     public decimal Valor { get; set; }
 
-    public DateTime Data { get; set; }
+    public DateTime Data { get; set; } = DateTime.Now.Atual();
 
     [Display(Name = "Periodo em minutos")]
     public int Periodo { get; set; }
 
-    public ICollection<MovimentacaoDeVeiculo> MovimentacoesDeVeiculo { get; set; } = new HashSet<MovimentacaoDeVeiculo>();
+    public virtual ICollection<MovimentacaoDeVeiculo> MovimentacoesDeVeiculo { get; set; } = new HashSet<MovimentacaoDeVeiculo>();
 }

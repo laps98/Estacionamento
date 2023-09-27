@@ -5,6 +5,8 @@
     ViewBag.Title = "Movimentação de veículo";
     var fluxos = Html.GetEnumSelectList<Fluxo>();
 
+    var tabelaDePreco = ViewBag.Tabela;
+
     // if (Model !=null)
     // {
     //     var fluxo = fluxos.FirstOrDefault(q => q.Value == ((int)Model.Fluxo).ToString());
@@ -42,6 +44,10 @@
                             "StudentGender",
                             fluxos,
                             "Select Gender",new { @class = "form-control", aspfor="Fluxo" }) *@
+
+                            @Html.DropDownListFor(tabelaDePreco => tabelaDePreco, new SelectList(tabelaDePreco, "Id", "Descricao")
+                            , new { @class = "form-control" })
+
                         </div>
                     </div>
                 </div>
