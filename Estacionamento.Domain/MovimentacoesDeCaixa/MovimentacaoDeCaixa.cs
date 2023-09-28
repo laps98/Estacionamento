@@ -19,7 +19,7 @@ public class MovimentacaoDeCaixa
     [Required(ErrorMessage = "Campo nome obrigatório")]
     public decimal Valor { get; set; }
 
-    [Required(ErrorMessage = "Campo cep obrigatório")]
+    [Required(ErrorMessage = "Campo fluxo obrigatório")]
     public Fluxo Fluxo { get; set; }
 
     public DateTime Data { get; set; }

@@ -1,7 +1,9 @@
 ﻿@using Estacionamento.Domain.Clientes;
+@using Estacionamento.Domain.Enums;
 @using Estacionamento.Domain.MovimentacoesDeCaixa;
 @model MovimentacaoDeCaixa
 @{
+    var fluxos = Html.GetEnumSelectList<Fluxo>();
     ViewBag.Title = "Cliente";
 }
 @section scripts{
@@ -28,12 +30,11 @@
                             @Html.ValidationMessageFor(q => q.Valor)
                         </div>
                     </div>
-                    <div class="col-lg-4 mt-3">
-                        <div class="form-group">
-                            <label for="Fluxo">Fluxo</label>
-                            <input type="text" asp-for="Fluxo" class="form-control" id="Fluxo" placeholder="Fluxo">
-                        </div>
-                    </div>
+
+                    <select asp-for="Fluxo" asp-items="fluxos" class="form-control"></select>
+                    @Html.ValidationMessageFor(q => q.Fluxo)
+
+
                     <div class="col-lg-4 mt-3">
                         <div class="form-group">
                             <label for="Data">Data</label>

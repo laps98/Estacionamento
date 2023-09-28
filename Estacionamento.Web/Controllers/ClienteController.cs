@@ -2,7 +2,6 @@
 using Estacionamento.Domain.Context;
 using Estacionamento.Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections;
 
 namespace Estacionamento.Web.Controllers;
@@ -29,7 +28,7 @@ public class ClienteController : Controller
     {
         if (id != 0)
         {
-            return View(Get(id));
+            return View(Get(id));  
         }
 
         return View();

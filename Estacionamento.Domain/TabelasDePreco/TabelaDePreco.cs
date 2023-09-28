@@ -1,5 +1,4 @@
 ﻿using Estacionamento.Doamin.Helpers;
-using Estacionamento.Domain.MovimentacoesDeCaixa;
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using System.ComponentModel.DataAnnotations;
 
