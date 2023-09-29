@@ -1,4 +1,5 @@
 ﻿using Estacionamento.Domain.Clientes;
+using Estacionamento.Domain.TabelasDePreco;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.Contracts;
 
@@ -13,6 +14,7 @@ public static class DomainInjection
         _service = services;
 
         Clientes();
+        _service.AddTransient<IGerenciadorDeTabelaDePreco, GerenciadorDeTabelaDePreco>();
     }
 
     private static void Clientes()
