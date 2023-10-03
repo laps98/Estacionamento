@@ -1,12 +1,12 @@
 ﻿using Estacionamento.Domain.Context;
+using Estacionamento.Domain.Pagination;
 using System;
+using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Domain.Clientes;
 
-public interface IClienteRepository
+public interface IGerenciadorDeCliente
 {
-    public List<Cliente> List();
-
     public void Save(Cliente cliente);
 
     public void Update(Cliente cliente);
@@ -15,29 +15,27 @@ public interface IClienteRepository
 
     public void Delete(int id);
 
+    ResponsePagination<Cliente> Buscar(QueryFilter filter);
 }
 
-internal class ClienteRepository : IClienteRepository
+internal class GerenciadorDeCliente : IGerenciadorDeCliente
 {
     private readonly IEstacionamentoContext _context;
 
-    public ClienteRepository(IEstacionamentoContext context)
+    public GerenciadorDeCliente(IEstacionamentoContext context)
     {
         _context = context;
-    }
-
-    public List<Cliente> List()
-    {
-        return _context.Clientes.ToList();
     }
 
     public void Save(Cliente cliente)
     {
         try
-        { 
-        _context.Clientes.Add(cliente);
-        _context.SaveChanges();
-        }catch(Exception){
+        {
+            _context.Clientes.Add(cliente);
+            _context.SaveChanges();
+        }
+        catch (Exception)
+        {
             throw new Exception();
         }
     }
@@ -68,5 +66,17 @@ internal class ClienteRepository : IClienteRepository
 
         _context.Clientes.Remove(cliente);
         _context.SaveChanges();
+    }
+
+    public ResponsePagination<Cliente> Buscar(QueryFilter filter)
+    {
+        var lista = _context.Clientes.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
+        var contador = _context.Clientes.Count();
+
+        return new ResponsePagination<Cliente>(filter)
+        {
+            Items = lista,
+            Total = contador,
+        };
     }
 }

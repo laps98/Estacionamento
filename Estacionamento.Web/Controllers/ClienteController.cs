@@ -9,10 +9,12 @@ namespace Estacionamento.Web.Controllers;
 public class ClienteController : Controller
 {
     private readonly IEstacionamentoContext _context;
+    private readonly IGerenciadorDeCliente _gerenciador;
 
-    public ClienteController(IEstacionamentoContext context)
+    public ClienteController(IEstacionamentoContext context, IGerenciadorDeCliente gerenciador)
     {
         _context = context;
+        _gerenciador = gerenciador;
     }
 
     public IActionResult Index(QueryFilter filter)
@@ -28,7 +30,7 @@ public class ClienteController : Controller
     {
         if (id != 0)
         {
-            return View(Get(id));  
+            return View(_gerenciador.Get(id));  
         }
 
         return View();
@@ -41,13 +43,13 @@ public class ClienteController : Controller
         {
             if (cliente.Id == 0)
             {
-                Save(cliente);
+                _gerenciador.Save(cliente);
                 TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             if (ModelState.IsValid)
             {
-                Update(cliente);
+                _gerenciador.Update(cliente);
                 TempData["MensagemSucesso"] = "Contato alterado com sucesso";
                 return RedirectToAction("Index");
             }
@@ -59,77 +61,6 @@ public class ClienteController : Controller
             return View("Create", cliente);
         }
     }
-
-    public IActionResult Deletar(int id)
-    {
-        try
-        {
-            Delete(id);
-            TempData["MensagemSucesso"] = "Item deletado com sucesso";
-            return RedirectToAction("Index");
-        }
-        catch (Exception ex)
-        {
-            TempData["MensagemErro"] = ex;
-
-            return RedirectToAction("Index");
-        }
-
-    }
-
-    public void Save(Cliente cliente)
-    {
-        try
-        {
-            _context.Clientes.Add(cliente);
-            _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-            throw new Exception();
-        }
-    }
-
-    public void Update(Cliente cliente)
-    {
-        if (cliente.Id == 0)
-        {
-            throw new Exception("Erro inesperado ao atualizar Cliente");
-        }
-        else
-        {
-            _context.Clientes.Update(cliente);
-        }
-        _context.SaveChanges();
-    }
-
-    public Cliente Get(int id)
-    {
-        return _context.Clientes.First(q => q.Id == id);
-    }
-
-    public void Delete(int id)
-    {
-        var cliente = _context.Clientes.FirstOrDefault(q => q.Id == id);
-        if (cliente == null)
-            throw new Exception("Este cliente não existe");
-
-        _context.Clientes.Remove(cliente);
-        _context.SaveChanges();
-    }
-
-    public ResponsePagination<Cliente> Buscar(QueryFilter filter)
-    {
-        var lista = _context.Clientes.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
-        var contador = _context.Clientes.Count();
-
-        return new ResponsePagination<Cliente>(filter)
-        {
-            Items = lista,
-            Total = contador,
-        };
-    }
-
 
     //public record ResponsePagination<T> : IEnumerable<T> where T : class
     //{

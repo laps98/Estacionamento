@@ -4,10 +4,19 @@ using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Domain.MovimentacoesDeCaixa;
 
-internal class GerenciadorDeMovimentacaoDeCaixa
+public interface IGerenciadorDeMovimentacaoDeCaixa
+{
+    void Save(MovimentacaoDeCaixa movimentacao);
+    void Update(MovimentacaoDeCaixa movimentacao);
+    MovimentacaoDeCaixa Get(int id);
+    void Delete(int id);
+    ResponsePagination<MovimentacaoDeCaixa> Buscar(QueryFilter filter);
+}
+internal class GerenciadorDeMovimentacaoDeCaixa : IGerenciadorDeMovimentacaoDeCaixa
 {
     private readonly IEstacionamentoContext _context;
     public GerenciadorDeMovimentacaoDeCaixa(IEstacionamentoContext context) => _context = context;
+
     public void Save(MovimentacaoDeCaixa movimentacao)
     {
         try
