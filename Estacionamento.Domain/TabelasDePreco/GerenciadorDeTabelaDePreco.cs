@@ -30,7 +30,7 @@ internal class GerenciadorDeTabelaDePreco : IGerenciadorDeTabelaDePreco
         }
         catch (Exception)
         {
-            throw new Exception("Erro inesperado cadastrar Tabela De Preço");
+            throw new Exception("Erro inesperado ao cadastrar Tabela De Preço");
         }
     }
 
@@ -56,7 +56,7 @@ internal class GerenciadorDeTabelaDePreco : IGerenciadorDeTabelaDePreco
     {
         var tabelaDePreco = _context.TabelasDePreco.FirstOrDefault(q => q.Id == id);
         if (tabelaDePreco == null)
-            throw new Exception("Este tabela De Preco não existe");
+            throw new Exception("Esta tabela De Preço não existe");
         _context.TabelasDePreco.Remove(tabelaDePreco);
         _context.SaveChanges();
     }

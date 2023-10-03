@@ -1,6 +1,5 @@
 ﻿using Estacionamento.Domain.Enums;
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
-using Estacionamento.Domain.TabelasDePreco;
 using System.ComponentModel.DataAnnotations;
 
 namespace Estacionamento.Domain.MovimentacoesDeCaixa;

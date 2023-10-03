@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using static Estacionamento.Web.Controllers.ClienteController;
+using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Web.Helpers
 {

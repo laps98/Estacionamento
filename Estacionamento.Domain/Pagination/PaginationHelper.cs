@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using static Estacionamento.Domain.Pagination.PaginationHelper;
+﻿using System.Collections;
 
 namespace Estacionamento.Domain.Pagination;
 
