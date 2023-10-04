@@ -19,6 +19,8 @@ public static class PaginationHelper
 
         public bool HasNextPage => CurrentPage < Total;
 
+        public int ItemsPerPage { get; set; }
+
         public IEnumerator<T> GetEnumerator()
         {
             return Items.GetEnumerator();
@@ -31,6 +33,8 @@ public static class PaginationHelper
 
         public ResponsePagination<T> Buscar(IQueryable<T> query, QueryFilter filter)
         {
+            ItemsPerPage = filter.ItemsPerPage;
+
             var lista = query.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
             var contador = lista.Count();
 

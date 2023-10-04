@@ -10,6 +10,7 @@ namespace Estacionamento.Web.Controllers;
 public class TabelaDePrecoController : Controller
 {
     private readonly IEstacionamentoContext _context;
+    private readonly IGerenciadorDeTabelaDePreco _tabelaDePreco;
 
     public TabelaDePrecoController(IEstacionamentoContext context)
     {
