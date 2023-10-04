@@ -1,32 +1,34 @@
-﻿using Estacionamento.Doamin.Helpers;
-using Estacionamento.Domain.Clientes;
-using Estacionamento.Domain.Context;
+﻿using Estacionamento.Domain.Context;
+using Estacionamento.Domain.Pagination;
 using Estacionamento.Domain.TabelasDePreco;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Web.Controllers;
 
 public class TabelaDePrecoController : Controller
 {
     private readonly IEstacionamentoContext _context;
-    private readonly IGerenciadorDeTabelaDePreco _tabelaDePreco;
+    private readonly IGerenciadorDeTabelaDePreco _gerenciador;
 
     public TabelaDePrecoController(IEstacionamentoContext context)
     {
         _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(QueryFilter filter)
     {
+        var lista =  _context.TabelasDePreco;
+        var request = new ResponsePagination<TabelaDePreco>(filter).Buscar(lista, filter);
+
         return View();
     }
     public IActionResult Create(int id = 0)
     {
-        //if (id != 0)
-        //{
-        //    return View(Get(id));
-        //}
+        if (id != 0)
+        {
+            return View(_gerenciador.Get(id));
+        }
 
         return View();
     }
@@ -37,15 +39,15 @@ public class TabelaDePrecoController : Controller
         {
             if (tabela.Id == 0)
             {
-                Save(tabela);
-                TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
+                _gerenciador.Save(tabela);
+                TempData["MensagemSucesso"] = "Tabela de preço cadastrada com sucesso";
                 return RedirectToAction("Index");
             }
             if (ModelState.IsValid)
             {
-                //Update(tabela);
-                //TempData["MensagemSucesso"] = "Contato alterado com sucesso";
-                //return RedirectToAction("Index");
+                _gerenciador.Update(tabela);
+                TempData["MensagemSucesso"] = "Tabela de preço alterada com sucesso";
+                return RedirectToAction("Index");
             }
             return View("Create", tabela);
         }
@@ -53,25 +55,6 @@ public class TabelaDePrecoController : Controller
         {
             TempData["MensagemErro"] = ex;
             return View("Create", tabela);
-        }
-
-
-    //    var tabela = new TabelaDePreco {
-    //   Data = DateTime.Now.Atual()
-    //};
-    //    return View(tabela);
-    }
-
-    public void Save(TabelaDePreco tabela)
-    {
-        try
-        {
-            _context.TabelasDePreco.Add(tabela);
-            _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-            throw new Exception();
         }
     }
 }

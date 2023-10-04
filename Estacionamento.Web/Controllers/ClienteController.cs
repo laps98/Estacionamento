@@ -21,7 +21,7 @@ public class ClienteController : Controller
     {
         var lista = _context.Clientes;
 
-        var request = new ResponsePagination<Cliente>(filter).Buscar(lista,filter);
+        var request = new ResponsePagination<Cliente>(filter).Buscar(lista, filter);
 
         return View(request);
     }
@@ -30,7 +30,7 @@ public class ClienteController : Controller
     {
         if (id != 0)
         {
-            return View(_gerenciador.Get(id));  
+            return View(_gerenciador.Get(id));
         }
 
         return View();
@@ -44,13 +44,13 @@ public class ClienteController : Controller
             if (cliente.Id == 0)
             {
                 _gerenciador.Save(cliente);
-                TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
+                TempData["MensagemSucesso"] = "Cliente cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             if (ModelState.IsValid)
             {
                 _gerenciador.Update(cliente);
-                TempData["MensagemSucesso"] = "Contato alterado com sucesso";
+                TempData["MensagemSucesso"] = "Cliente alterado com sucesso";
                 return RedirectToAction("Index");
             }
             return View("Create", cliente);
@@ -61,43 +61,5 @@ public class ClienteController : Controller
             return View("Create", cliente);
         }
     }
-
-    //public record ResponsePagination<T> : IEnumerable<T> where T : class
-    //{
-    //    public ResponsePagination(QueryFilter queryFilter)
-    //    {
-    //        CurrentPage = queryFilter.CurrentPage;
-    //    }
-
-    //    public List<T> Items { get; set; }
-    //    public int Total { get; set; }
-    //    public int CurrentPage { get; set; }
-
-    //    public bool HasPreviousPage => CurrentPage > 1;
-
-    //    public bool HasNextPage => CurrentPage < Total;
-
-    //    public IEnumerator<T> GetEnumerator()
-    //    {
-    //        return Items.GetEnumerator();
-    //    }
-
-    //    IEnumerator IEnumerable.GetEnumerator()
-    //    {
-    //        return Items.GetEnumerator();
-    //    }
-
-    //    public ResponsePagination<T> Buscar(IQueryable<T> query, QueryFilter filter)
-    //    {
-    //        var lista = query.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
-    //        var contador = lista.Count();
-
-    //        return new ResponsePagination<T>(filter)
-    //        {
-    //            Items = lista,
-    //            Total = contador,
-    //        };
-    //    }
-    //}
 }
 
