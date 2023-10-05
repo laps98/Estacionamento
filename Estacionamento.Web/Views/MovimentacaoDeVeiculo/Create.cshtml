@@ -16,7 +16,7 @@
 @section scripts{
     <script src=""></script>
 }
-<form asp-controller="Cliente" asp-action="Create" method="post">
+<form asp-controller="MovimentacaoDeVeiculo" asp-action="Create" method="post">
     <input type="hidden" asp-for="Id">
     <div>
         <h3>@ViewBag.Title</h3>
@@ -30,14 +30,18 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+
                         <div class="form-group">
+
                             <label for="IdTabelaDePreco">Tabela</label>
                             <select asp-for="IdTabelaDePreco"
                                     class="form-control"
                                     asp-items="@ViewBag.TabelaDePreco">
                                 <option></option>
                             </select>
+
                         </div>
+
                     </div>
                 </div>
 

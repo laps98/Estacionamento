@@ -9,7 +9,7 @@
 @section scripts{
     <script src=""></script>
 }
-<form asp-controller="Cliente" asp-action="Create" method="post">
+<form asp-controller="MovimentacaoDeCaixa" asp-action="Create" method="post">
     <input type="hidden" asp-for="Id">
     <div>
         <h3>@ViewBag.Title</h3>
@@ -36,10 +36,13 @@
 
 
                     <div class="col-lg-4 mt-3">
-                        <div class="form-group">
-                            <label for="Data">Data</label>
-                            <input type="text" asp-for="Data" class="form-control" id="Data" placeholder="Data">
-                        </div>
+                        @*                         <div class="form-group">
+                        <label for="Data">Data</label>
+                        <input type="text" asp-for="Data" class="form-control" id="Data" placeholder="Data">
+                        </div> *@
+                        @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

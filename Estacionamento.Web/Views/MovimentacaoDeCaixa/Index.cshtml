@@ -1,5 +1,7 @@
 ﻿@using Estacionamento.Domain.MovimentacoesDeCaixa;
-@model List<MovimentacaoDeCaixa>
+@using Estacionamento.Web.Helpers;
+@using static Estacionamento.Domain.Pagination.PaginationHelper;
+@model ResponsePagination<MovimentacaoDeCaixa>
 @{
     ViewBag.Title = "Caixa";
 }
@@ -40,4 +42,8 @@
             }
         </tbody>
     </table>
+
+    @Html.Pagination(Model, "MovimentacaoDeCaixa")
+
+
 </div>

@@ -2,6 +2,7 @@
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using Estacionamento.Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Web.Controllers;
@@ -11,6 +12,11 @@ public class MovimentacaoDeVeiculoController : Controller
     private readonly IEstacionamentoContext _context;
     private readonly IGerenciadorDeMovimentacaoDeVeiculo _gerenciador;
 
+    public MovimentacaoDeVeiculoController(IEstacionamentoContext context, IGerenciadorDeMovimentacaoDeVeiculo gerenciador)
+    {
+        _context = context;
+        _gerenciador = gerenciador;
+    }
 
     public IActionResult Index(QueryFilter filter)
     {
@@ -27,6 +33,8 @@ public class MovimentacaoDeVeiculoController : Controller
         {
             return View(_gerenciador.Get(id));
         }
+
+        ViewBag.TabelaDePreco = _context.TabelasDePreco.Select(q => new { IdTabelaDePreco = q.Id, q.Descricao });
 
         return View();
     }

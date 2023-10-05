@@ -11,9 +11,10 @@ public class TabelaDePrecoController : Controller
     private readonly IEstacionamentoContext _context;
     private readonly IGerenciadorDeTabelaDePreco _gerenciador;
 
-    public TabelaDePrecoController(IEstacionamentoContext context)
+    public TabelaDePrecoController(IEstacionamentoContext context, IGerenciadorDeTabelaDePreco gerenciador)
     {
         _context = context;
+        _gerenciador = gerenciador;
     }
 
     public IActionResult Index(QueryFilter filter)
