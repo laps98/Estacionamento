@@ -2,6 +2,7 @@
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using Estacionamento.Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
@@ -31,12 +32,21 @@ public class MovimentacaoDeVeiculoController : Controller
     {
         if (id != 0)
         {
-            return View(_gerenciador.Get(id));
+            var movimentacaoDeVeiculo = _gerenciador.Get(id);
+            Dropdown(movimentacaoDeVeiculo);
+
+            return View(movimentacaoDeVeiculo);
         }
 
-        ViewBag.TabelaDePreco = _context.TabelasDePreco.Select(q => new { IdTabelaDePreco = q.Id, q.Descricao });
+        Dropdown();
 
         return View();
+    }
+
+    private void Dropdown(MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
+    {
+        var items = _context.TabelasDePreco.Select(q => new { q.Id, q.Descricao });
+        ViewBag.TabelaDePreco = new SelectList(items, "Id", "Descricao", movimentacaoDeVeiculo?.IdTabelaDePreco);
     }
 
     [HttpPost]
