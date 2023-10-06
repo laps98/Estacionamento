@@ -3,22 +3,18 @@ using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using Estacionamento.Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Web.Controllers;
-
 public class MovimentacaoDeVeiculoController : Controller
 {
     private readonly IEstacionamentoContext _context;
     private readonly IGerenciadorDeMovimentacaoDeVeiculo _gerenciador;
-
     public MovimentacaoDeVeiculoController(IEstacionamentoContext context, IGerenciadorDeMovimentacaoDeVeiculo gerenciador)
     {
         _context = context;
         _gerenciador = gerenciador;
     }
-
     public IActionResult Index(QueryFilter filter)
     {
         var lista = _context.MovimentacoesDeVeiculo;
@@ -27,7 +23,6 @@ public class MovimentacaoDeVeiculoController : Controller
 
         return View(request);
     }
-
     public IActionResult Create(int id = 0)
     {
         if (id != 0)
@@ -37,18 +32,14 @@ public class MovimentacaoDeVeiculoController : Controller
 
             return View(movimentacaoDeVeiculo);
         }
-
         Dropdown();
-
         return View();
     }
-
     private void Dropdown(MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
     {
         var items = _context.TabelasDePreco.Select(q => new { q.Id, q.Descricao });
         ViewBag.TabelaDePreco = new SelectList(items, "Id", "Descricao", movimentacaoDeVeiculo?.IdTabelaDePreco);
     }
-
     [HttpPost]
     public IActionResult Create(MovimentacaoDeVeiculo movimentacao)
     {
@@ -74,5 +65,4 @@ public class MovimentacaoDeVeiculoController : Controller
             return View("Create", movimentacao);
         }
     }
-
 }

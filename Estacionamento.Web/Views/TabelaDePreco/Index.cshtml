@@ -1,5 +1,43 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Estacionamento.Domain.TabelasDePreco;
+@using Estacionamento.Web.Helpers;
+@using static Estacionamento.Domain.Pagination.PaginationHelper;
+@model ResponsePagination<TabelaDePreco>
 @{
+    ViewBag.Title = "Caixa";
 }
+@section scripts{
+}
+<div>
+    <div class="row">
+        <div class="col-6">
+            <h3>@ViewBag.Title</h3>
+        </div>
+        <div class="col-6 d-flex flex-column align-items-end">
+            <a class="btn btn-success" asp-controller="TabelaDePreco" asp-action="Create"><i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Movimentação</th>
+                <th scope="col">Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Descricao</td>
+                        <td>@item.Data.ToShortDateString()</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @Html.Pagination(Model, "TabelaDePreco")
+</div>
