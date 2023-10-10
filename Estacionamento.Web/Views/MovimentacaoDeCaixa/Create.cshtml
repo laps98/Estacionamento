@@ -9,6 +9,7 @@
 @section scripts{
     <script src=""></script>
 }
+
 <form asp-controller="MovimentacaoDeCaixa" asp-action="Create" method="post">
     <input type="hidden" asp-for="Id">
     <div>
@@ -33,7 +34,6 @@
 
                     <select asp-for="Fluxo" asp-items="fluxos" class="form-control"></select>
                     @Html.ValidationMessageFor(q => q.Fluxo)
-
 
                     <div class="col-lg-4 mt-3">
                         @*                         <div class="form-group">
