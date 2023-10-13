@@ -6,17 +6,17 @@
 @{
     ViewBag.Title = "Estacionar";
     var fluxos = Html.GetEnumSelectList<Fluxo>();
-
-
+    ResponsePagination<MovimentacaoDeVeiculo> listagemDeVeiculos = ViewBag.ListagemDeVeiculos;
 }
+
 @section scripts{
     <script type="text/javascript">
         var modal = new bootstrap.Modal(document.getElementById('lancarVeiculo'))
         modal.show()
 
-                // $(document.querySelector("Placa")).click(function () {
-                //     $("Placa").focus();
-                // });
+                                        // $(document.querySelector("Placa")).click(function () {
+                                        //     $("Placa").focus();
+                                        // });
 
     </script>
 }
@@ -37,20 +37,20 @@
         </div>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Movimentação</th>
-                <th scope="col">Entrada</th>
-                <th scope="col">Saída</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && ViewBag.ListagemDeVeiculos.Any())
-            {
-                foreach (var item in ViewBag.ListagemDeVeiculos)
+    @if (listagemDeVeiculos.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Movimentação</th>
+                    <th scope="col">Entrada</th>
+                    <th scope="col">Saída</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in listagemDeVeiculos)
                 {
                     <tr>
                         <th scope="row">@item.Id</th>
@@ -60,15 +60,12 @@
                         <td>@(item.DataDeSaida?.ToShortDateString())</td>
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    }
     @Html.Pagination((ResponsePagination<MovimentacaoDeVeiculo>)ViewBag.ListagemDeVeiculos, "Home")
 
 </div>
-
-
 
 
 <!-- Modal -->
