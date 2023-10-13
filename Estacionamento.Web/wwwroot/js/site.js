@@ -4,7 +4,8 @@
 
 setTimeout(function () {
     $('.timer').hide('hide');
-}, 5000)
+}, 5000);
+
 
 //$(function () {
 //    $('input[type=datetime]').datepicker({
