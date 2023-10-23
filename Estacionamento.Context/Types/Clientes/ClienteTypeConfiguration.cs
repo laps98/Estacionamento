@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Estacionamento.Context.Types.Clientes;
 
-internal class ClienteTypeConfiguration : IEntityTypeConfiguration<Cliente>
+internal class ClienteTypeConfiguration : IEntityTypeConfiguration<Usuario>
 {
-    public void Configure(EntityTypeBuilder<Cliente> builder)
+    public void Configure(EntityTypeBuilder<Usuario> builder)
     {
         builder.HasKey(q => q.Id);
     }

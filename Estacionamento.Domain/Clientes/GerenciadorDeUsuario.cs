@@ -5,29 +5,29 @@ using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Domain.Clientes;
 
-public interface IGerenciadorDeCliente
+public interface IGerenciadorDeUsuario
 {
-    public void Save(Cliente cliente);
+    public void Save(Usuario cliente);
 
-    public void Update(Cliente cliente);
+    public void Update(Usuario cliente);
 
-    public Cliente Get(int id);
+    public Usuario Get(int id);
 
     public void Delete(int id);
 
-    ResponsePagination<Cliente> Buscar(QueryFilter filter);
+    ResponsePagination<Usuario> Buscar(QueryFilter filter);
 }
 
-internal class GerenciadorDeCliente : IGerenciadorDeCliente
+internal class GerenciadorDeUsuario : IGerenciadorDeUsuario
 {
     private readonly IEstacionamentoContext _context;
 
-    public GerenciadorDeCliente(IEstacionamentoContext context)
+    public GerenciadorDeUsuario(IEstacionamentoContext context)
     {
         _context = context;
     }
 
-    public void Save(Cliente cliente)
+    public void Save(Usuario cliente)
     {
         try
         {
@@ -40,7 +40,7 @@ internal class GerenciadorDeCliente : IGerenciadorDeCliente
         }
     }
 
-    public void Update(Cliente cliente)
+    public void Update(Usuario cliente)
     {
         if (cliente.Id == 0)
         {
@@ -53,7 +53,7 @@ internal class GerenciadorDeCliente : IGerenciadorDeCliente
         _context.SaveChanges();
     }
 
-    public Cliente Get(int id)
+    public Usuario Get(int id)
     {
         return _context.Clientes.First(q => q.Id == id);
     }
@@ -68,12 +68,12 @@ internal class GerenciadorDeCliente : IGerenciadorDeCliente
         _context.SaveChanges();
     }
 
-    public ResponsePagination<Cliente> Buscar(QueryFilter filter)
+    public ResponsePagination<Usuario> Buscar(QueryFilter filter)
     {
         var lista = _context.Clientes.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
         var contador = _context.Clientes.Count();
 
-        return new ResponsePagination<Cliente>(filter)
+        return new ResponsePagination<Usuario>(filter)
         {
             Items = lista,
             Total = contador,

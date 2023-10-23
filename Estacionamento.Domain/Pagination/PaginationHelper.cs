@@ -17,9 +17,9 @@ public static class PaginationHelper
 
         public bool HasPreviousPage => CurrentPage > 1;
 
-        public bool HasNextPage => CurrentPage < Total;
+        public bool HasNextPage => CurrentPage < Total/ItemsPerPage;
 
-        public int ItemsPerPage { get; set; }
+        public int ItemsPerPage { get; set; } = 10;
 
         public IEnumerator<T> GetEnumerator()
         {

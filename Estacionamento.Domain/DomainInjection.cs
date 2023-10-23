@@ -38,6 +38,6 @@ public static class DomainInjection
 
     private static void Clientes()
     {
-        _service.AddTransient<IGerenciadorDeCliente, GerenciadorDeCliente>();
+        _service.AddTransient<IGerenciadorDeUsuario, GerenciadorDeUsuario>();
     }
 }

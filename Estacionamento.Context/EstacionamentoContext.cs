@@ -14,7 +14,7 @@ public class EstacionamentoContext : DbContext, IEstacionamentoContext
     {
     }
 
-    public DbSet<Cliente> Clientes { get; set; }
+    public DbSet<Usuario> Clientes { get; set; }
     public DbSet<MovimentacaoDeCaixa> MovimentacoesDeCaixa { get; set; }
     public DbSet<MovimentacaoDeVeiculo> MovimentacoesDeVeiculo { get; set; }
     public DbSet<TabelaDePreco> TabelasDePreco { get; set; }

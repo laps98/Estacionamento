@@ -18,17 +18,17 @@ namespace Estacionamento.Web.Helpers
             content.AppendHtml("<li class=\"page-item\">")
                 .AppendHtml($"<a class=\"page-link\" href=\"?currentPage={pagination.CurrentPage}&ItemsPerPage={pagination.ItemsPerPage}\">{pagination.CurrentPage}</a>")
                 .AppendHtml("</li>");
-            if ((pagination.CurrentPage + 1) <= pagination.Total)
+            if ((pagination.CurrentPage + 1) <= (pagination.Total/pagination.ItemsPerPage))
                 content.AppendHtml("<li class=\"page-item\">")
                 .AppendHtml($"<a class=\"page-link\" href=\"?currentPage={pagination.CurrentPage + 1}&ItemsPerPage={pagination.ItemsPerPage}\">{pagination.CurrentPage + 1}</a>")
                 .AppendHtml("</li>");
-            if ((pagination.CurrentPage + 2) <= pagination.Total)
+            if ((pagination.CurrentPage + 2) <= (pagination.Total/pagination.ItemsPerPage))
                 content.AppendHtml("<li class=\"page-item\">")
                 .AppendHtml($"<a class=\"page-link\" href=\"?currentPage={pagination.CurrentPage + 2}&ItemsPerPage={pagination.ItemsPerPage}\">{pagination.CurrentPage + 2}</a>")
                 .AppendHtml("</li>");
-            if (pagination.Total > 5)
+            if ((pagination.Total /pagination.ItemsPerPage)> 5)
                 content.AppendHtml("<li class=\"page-item\">")
-                .AppendHtml($"<a class=\"page-link\" href=\"?currentPage={pagination.Total}&ItemsPerPage={pagination.ItemsPerPage}\">{pagination.Total}</a>")
+                .AppendHtml($"<a class=\"page-link\" href=\"?currentPage={(pagination.Total/pagination.ItemsPerPage)}&ItemsPerPage={pagination.ItemsPerPage}\">{(pagination.Total/pagination.ItemsPerPage)}</a>")
                 .AppendHtml("</li>");
             if (pagination.HasNextPage)
                 content.AppendHtml("<li class=\"page-item\">")

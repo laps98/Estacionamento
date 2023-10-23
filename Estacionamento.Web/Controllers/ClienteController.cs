@@ -9,9 +9,9 @@ namespace Estacionamento.Web.Controllers;
 public class ClienteController : Controller
 {
     private readonly IEstacionamentoContext _context;
-    private readonly IGerenciadorDeCliente _gerenciador;
+    private readonly IGerenciadorDeUsuario _gerenciador;
 
-    public ClienteController(IEstacionamentoContext context, IGerenciadorDeCliente gerenciador)
+    public ClienteController(IEstacionamentoContext context, IGerenciadorDeUsuario gerenciador)
     {
         _context = context;
         _gerenciador = gerenciador;
@@ -21,7 +21,7 @@ public class ClienteController : Controller
     {
         var lista = _context.Clientes;
 
-        var request = new ResponsePagination<Cliente>(filter).Buscar(lista, filter);
+        var request = new ResponsePagination<Usuario>(filter).Buscar(lista, filter);
 
         return View(request);
     }
@@ -37,7 +37,7 @@ public class ClienteController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Cliente cliente)
+    public IActionResult Create(Usuario cliente)
     {
         try
         {
