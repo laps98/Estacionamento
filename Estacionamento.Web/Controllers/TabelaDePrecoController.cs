@@ -22,7 +22,7 @@ public class TabelaDePrecoController : Controller
         var lista =  _context.TabelasDePreco;
         var request = new ResponsePagination<TabelaDePreco>(filter).Buscar(lista, filter);
 
-        return View();
+        return View(request);
     }
     public IActionResult Create(int id = 0)
     {

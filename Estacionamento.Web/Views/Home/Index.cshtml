@@ -14,41 +14,46 @@
         var modal = new bootstrap.Modal(document.getElementById('lancarVeiculo'))
         modal.show()
 
-                                        // $(document.querySelector("Placa")).click(function () {
-                                        //     $("Placa").focus();
-                                        // });
+                                                                                                // $(document.querySelector("Placa")).click(function () {
+                                                                                                //     $("Placa").focus();
+                                                                                                // });
 
     </script>
 }
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lancarVeiculo">
-    Launch demo modal
-</button>
+
 
 
 <div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <h3>@ViewBag.Title</h3>
         </div>
-        <div class="col-6 d-flex flex-column align-items-end">
-            <a class="btn btn-success" asp-controller="MovimentacaoDeVeiculo" asp-action="Create"><i class="fas fa-plus"></i></a>
+        <div class="col-4 d-flex flex-column align-items-center">
+            <button type="button" class="btn btn-warning px-5">
+                Baixar
+            </button>
+        </div>
+        <div class="col-4 d-flex flex-column align-items-end">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#lancarVeiculo">
+                Adicionar <i class="fas fa-plus"></i>
+            </button>
         </div>
     </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Descrição</th>
+                <th>Movimentação</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th></th>
+            </tr>
+        </thead>
 
-    @if (listagemDeVeiculos.Any())
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Descrição</th>
-                    <th scope="col">Movimentação</th>
-                    <th scope="col">Entrada</th>
-                    <th scope="col">Saída</th>
-                </tr>
-            </thead>
+        @if (listagemDeVeiculos.Any())
+        {
             <tbody>
                 @foreach (var item in listagemDeVeiculos)
                 {
@@ -58,64 +63,77 @@
                         <td>@item.Fluxo</td>
                         <td>@item.DataDeEntrada.ToShortDateString()</td>
                         <td>@(item.DataDeSaida?.ToShortDateString())</td>
+                        <td class="text-end">
+                            @if (item.DataDeSaida == null)
+                            {
+                                <button type="button" class="btn btn-warning">
+                                    Baixar
+                                </button>
+                                <button type="button" class="btn btn-danger">
+                                    Excluir
+                                </button>
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>
-        </table>
-    }
-    @Html.Pagination((ResponsePagination<MovimentacaoDeVeiculo>)ViewBag.ListagemDeVeiculos, "Home")
+        }
+    </table>
+    @if (listagemDeVeiculos.Any())
+        @Html.Pagination((ResponsePagination<MovimentacaoDeVeiculo>)ViewBag.ListagemDeVeiculos, "Home")
 
-</div>
+
+    </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="lancarVeiculo" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">@ViewBag.Title</h3>
-            </div>
-            <div class="modal-body">
+    <!-- Modal -->
+    <div class="modal fade" id="lancarVeiculo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">@ViewBag.Title</h3>
+                </div>
+                <div class="modal-body">
 
-                <form asp-controller="Home" asp-action="Create" method="post">
-                    <input type="hidden" asp-for="Id">
-                    <div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="Placa">Placa</label>
-                                        <input type="text" asp-for="Placa" class="form-control" placeholder="Placa">
+                    <form asp-controller="Home" asp-action="Create" method="post">
+                        <input type="hidden" asp-for="Id">
+                        <div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="Placa">Placa</label>
+                                            <input type="text" asp-for="Placa" class="form-control" placeholder="Placa">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="IdTabelaDePreco">Tabela</label>
+                                            <select asp-for="IdTabelaDePreco" class="form-control"
+                                                    asp-items="@ViewBag.TabelaDePreco">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        @Html.LabelFor(model => model.DataDeEntrada, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.DataDeEntrada, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DataDeEntrada, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="IdTabelaDePreco">Tabela</label>
-                                        <select asp-for="IdTabelaDePreco" class="form-control"
-                                                asp-items="@ViewBag.TabelaDePreco">
-                                            <option></option>
-                                        </select>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="Observacao">Observacao</label>
+                                    <input type="text" asp-for="Observacao" class="form-control" placeholder="Observação">
                                 </div>
-                                <div class="col-lg-4">
-                                    @Html.LabelFor(model => model.DataDeEntrada, htmlAttributes: new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.DataDeEntrada, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.DataDeEntrada, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Observacao">Observacao</label>
-                                <input type="text" asp-for="Observacao" class="form-control" placeholder="Observação">
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Voltar</button>
-                <button class="btn btn-success btn-block">Adicionar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                    <button class="btn btn-success btn-block">Adicionar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
