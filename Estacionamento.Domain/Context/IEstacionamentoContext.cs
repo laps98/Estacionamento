@@ -8,7 +8,7 @@ namespace Estacionamento.Domain.Context;
 
 public interface IEstacionamentoContext
 {
-    public DbSet<Usuario> Clientes { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<MovimentacaoDeCaixa> MovimentacoesDeCaixa { get; set; }
     public DbSet<MovimentacaoDeVeiculo> MovimentacoesDeVeiculo { get; set; }
     public DbSet<TabelaDePreco> TabelasDePreco { get; set; }

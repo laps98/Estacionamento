@@ -1,12 +1,12 @@
 ﻿@using Estacionamento.Domain.Usuarios;
 @model Usuario
 @{
-    ViewBag.Title = "Cliente";
+    ViewBag.Title = "Usuário";
 }
 @section scripts{
     <script src=""></script>
 }
-<form asp-controller="Cliente" asp-action="Create" method="post">
+<form asp-controller="Usuario" asp-action="Create" method="post">
     <input type="hidden" asp-for="Id">
     <div>
         <h3>@ViewBag.Title</h3>
@@ -35,10 +35,17 @@
                         <input type="password" asp-for="Senha" class="form-control" id="Senha" placeholder="*******">
                     </div>
                 </div>
-                <div class="mt-3">
-                    <button class="btn btn-primary btn-block">Adicionar</button>
-                </div>
 
+                <div>
+                    <div class="form-group  mt-3">
+                        <label for="Senha">Senha</label>
+                        <input type="password" class="form-control" id="Senha" placeholder="*******">
+                    </div>
+                </div>
+                <div class="mt-3 text-end">
+                    <a class="btn btn-secondary" asp-controller="Usuario" asp-action="Index">Voltar</a>
+                    <button class="btn btn-success btn-block">Adicionar</button>
+                </div>
             </div>
         </div>
     </div>

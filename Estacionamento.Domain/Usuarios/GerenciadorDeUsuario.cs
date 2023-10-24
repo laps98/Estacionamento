@@ -31,7 +31,7 @@ internal class GerenciadorDeUsuario : IGerenciadorDeUsuario
     {
         try
         {
-            _context.Clientes.Add(cliente);
+            _context.Usuarios.Add(cliente);
             _context.SaveChanges();
         }
         catch (Exception)
@@ -48,30 +48,30 @@ internal class GerenciadorDeUsuario : IGerenciadorDeUsuario
         }
         else
         {
-            _context.Clientes.Update(cliente);
+            _context.Usuarios.Update(cliente);
         }
         _context.SaveChanges();
     }
 
     public Usuario Get(int id)
     {
-        return _context.Clientes.First(q => q.Id == id);
+        return _context.Usuarios.First(q => q.Id == id);
     }
 
     public void Delete(int id)
     {
-        var cliente = _context.Clientes.FirstOrDefault(q => q.Id == id);
+        var cliente = _context.Usuarios.FirstOrDefault(q => q.Id == id);
         if (cliente == null)
             throw new Exception("Este cliente não existe");
 
-        _context.Clientes.Remove(cliente);
+        _context.Usuarios.Remove(cliente);
         _context.SaveChanges();
     }
 
     public ResponsePagination<Usuario> Buscar(QueryFilter filter)
     {
-        var lista = _context.Clientes.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
-        var contador = _context.Clientes.Count();
+        var lista = _context.Usuarios.Skip((filter.CurrentPage - 1) * filter.ItemsPerPage).Take(filter.ItemsPerPage).ToList();
+        var contador = _context.Usuarios.Count();
 
         return new ResponsePagination<Usuario>(filter)
         {

@@ -6,12 +6,12 @@ using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Web.Controllers;
 
-public class ClienteController : Controller
+public class UsuarioController : Controller
 {
     private readonly IEstacionamentoContext _context;
     private readonly IGerenciadorDeUsuario _gerenciador;
 
-    public ClienteController(IEstacionamentoContext context, IGerenciadorDeUsuario gerenciador)
+    public UsuarioController(IEstacionamentoContext context, IGerenciadorDeUsuario gerenciador)
     {
         _context = context;
         _gerenciador = gerenciador;
@@ -19,7 +19,7 @@ public class ClienteController : Controller
 
     public IActionResult Index(QueryFilter filter)
     {
-        var lista = _context.Clientes;
+        var lista = _context.Usuarios;
 
         var request = new ResponsePagination<Usuario>(filter).Buscar(lista, filter);
 
@@ -37,28 +37,28 @@ public class ClienteController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Usuario cliente)
+    public IActionResult Create(Usuario usuario)
     {
         try
         {
-            if (cliente.Id == 0)
+            if (usuario.Id == 0)
             {
-                _gerenciador.Save(cliente);
-                TempData["MensagemSucesso"] = "Cliente cadastrado com sucesso";
+                _gerenciador.Save(usuario);
+                TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             if (ModelState.IsValid)
             {
-                _gerenciador.Update(cliente);
-                TempData["MensagemSucesso"] = "Cliente alterado com sucesso";
+                _gerenciador.Update(usuario);
+                TempData["MensagemSucesso"] = "Usuário alterado com sucesso";
                 return RedirectToAction("Index");
             }
-            return View("Create", cliente);
+            return View("Create", usuario);
         }
         catch (Exception ex)
         {
             TempData["MensagemErro"] = ex;
-            return View("Create", cliente);
+            return View("Create", usuario);
         }
     }
 }

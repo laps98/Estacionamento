@@ -3,7 +3,7 @@
 @using static Estacionamento.Domain.Pagination.PaginationHelper;
 @model ResponsePagination<Usuario>
 @{
-    ViewBag.Title = "Cliente";
+    ViewBag.Title = "Usuário";
 }
 @section scripts{
 }
@@ -12,8 +12,8 @@
         <div class="col-lg-6">
             <h3>@ViewBag.Title</h3>
         </div>
-        <div class="col-lg-6 d-flex flex-row-reverse">
-            <a class="btn btn-success" asp-controller="Cliente" asp-action="Create"><i class="fas fa-plus"></i></a>
+        <div class="col-lg-6 d-flex flex-column align-items-end">
+            <a class="btn btn-success  px-5" asp-controller="Usuario" asp-action="Create">Adicionar <i class="fas fa-plus"></i></a>
         </div>
     </div>
 
@@ -23,7 +23,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">E-mail</th>
-                <th scope="col">Carro</th>
+                <th scope="col">Tipo de usuário</th>
+                <th scope="col"></th>
 
             </tr>
         </thead>
@@ -36,10 +37,11 @@
                         <th scope="row">@item.Id</th>
                         <td>@item.Name</td>
                         <td>@item.Email</td>
+                        <td>@(item.Administrador ? "Adm" : "Normal")</td>
                         <td class="d-flex flex-row-reverse">
                             <div class="d-grid gap-2 d-md-block">
-                                <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Cliente" asp-action="Deletar">Excluir</a>
-                                <a class="btn btn-warning" asp-route-id="@item.Id" asp-controller="Cliente" asp-action="Create">Editar</a>
+                                <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Usuario" asp-action="Deletar">Excluir</a>
+                                <a class="btn btn-warning" asp-route-id="@item.Id" asp-controller="Usuario" asp-action="Create">Editar</a>
                             </div>
                         </td>
                     </tr>
@@ -49,6 +51,6 @@
     </table>
 
 
-    @Html.Pagination(Model, "Cliente")
+    @Html.Pagination(Model, "Usuario")
 
 </div>

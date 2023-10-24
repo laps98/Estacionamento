@@ -15,6 +15,7 @@ namespace Estacionamento.Web.Helpers
                 content.AppendHtml("<li class=\"page-item\">")
                     .AppendHtml($"<a class=\"page-link\" href=\"?currentPage={pagination.CurrentPage - 1}&ItemsPerPage={pagination.ItemsPerPage}\">Anterior</a>")
                     .AppendHtml("</li>");
+            if(pagination.Total>pagination.ItemsPerPage)
             content.AppendHtml("<li class=\"page-item\">")
                 .AppendHtml($"<a class=\"page-link\" href=\"?currentPage={pagination.CurrentPage}&ItemsPerPage={pagination.ItemsPerPage}\">{pagination.CurrentPage}</a>")
                 .AppendHtml("</li>");
