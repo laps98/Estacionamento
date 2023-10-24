@@ -1,4 +1,4 @@
-﻿using Estacionamento.Domain.Clientes;
+﻿using Estacionamento.Domain.Usuarios;
 using Estacionamento.Domain.Context;
 using Estacionamento.Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿using Estacionamento.Domain.Clientes;
+﻿using Estacionamento.Domain.Usuarios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

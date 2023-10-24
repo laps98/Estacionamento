@@ -1,4 +1,4 @@
-﻿@using Estacionamento.Domain.Clientes;
+﻿@using Estacionamento.Domain.Usuarios;
 @using Estacionamento.Web.Helpers;
 @using static Estacionamento.Domain.Pagination.PaginationHelper;
 @model ResponsePagination<Usuario>
@@ -36,7 +36,6 @@
                         <th scope="row">@item.Id</th>
                         <td>@item.Name</td>
                         <td>@item.Email</td>
-                        @* <td>@item.Carro</td>*@
                         <td class="d-flex flex-row-reverse">
                             <div class="d-grid gap-2 d-md-block">
                                 <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Cliente" asp-action="Deletar">Excluir</a>
@@ -49,24 +48,7 @@
         </tbody>
     </table>
 
-    @*@Html.Pagination(Model, pagina => Url.Action("Index", new { pagina }))*@
 
     @Html.Pagination(Model, "Cliente")
-
-@*     <nav>
-        @{
-            
-        }
-
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="?currentPage=1&ItemsPerPage=10">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="?currentPage=1&ItemsPerPage=10">1</a></li>
-            <li class="page-item"><a class="page-link" href="?currentPage=2&ItemsPerPage=10">2</a></li>
-            <li class="page-item"><a class="page-link" href="?currentPage=3&ItemsPerPage=10">3</a></li>
-            <li class="page-item"><a class="page-link" href="?currentPage=1&ItemsPerPage=10">Next</a></li>
-        </ul>
-    </nav> *@
-
-
 
 </div>

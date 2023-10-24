@@ -3,6 +3,7 @@ using System;
 using Estacionamento.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Estacionamento.Context.Migrations
 {
     [DbContext(typeof(EstacionamentoContext))]
-    partial class EstacionamentoContextModelSnapshot : ModelSnapshot
+    [Migration("20231024161847_MigrationAdm")]
+    partial class MigrationAdm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

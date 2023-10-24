@@ -1,4 +1,4 @@
-﻿using Estacionamento.Domain.Clientes;
+﻿using Estacionamento.Domain.Usuarios;
 using Estacionamento.Domain.MovimentacoesDeCaixa;
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using Estacionamento.Domain.TabelasDePreco;

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Estacionamento.Domain.Clientes;
+namespace Estacionamento.Domain.Usuarios;
 
 public class Usuario
 {
@@ -16,6 +16,7 @@ public class Usuario
     [EmailAddress(ErrorMessage = "E-mail informado não é válido")]
     public string Email { get; set; }
     public string Senha { get; set; }
+    public bool Administrador { get; set; }
 
     //[Required(ErrorMessage = "Campo cep obrigatório")]
     //public string Cep { get; set; }

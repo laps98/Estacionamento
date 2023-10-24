@@ -15,7 +15,7 @@
             <h3>@ViewBag.Title</h3>
         </div>
         <div class="col-6 d-flex flex-column align-items-end">
-            <a class="btn btn-success" asp-controller="MovimentacaoDeCaixa" asp-action="Create"><i class="fas fa-plus"></i></a>
+            <a class="btn btn-success px-5" asp-controller="MovimentacaoDeCaixa" asp-action="Create">Adicionar <i class="fas fa-plus"></i></a>
         </div>
     </div>
 
@@ -26,6 +26,7 @@
                 <th scope="col">Descrição</th>
                 <th scope="col">Movimentação</th>
                 <th scope="col">Data</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +39,12 @@
                         <td>@item.Descricao</td>
                         <td>@item.Fluxo</td>
                         <td>@item.Data.ToShortDateString()</td>
+                        <td class="d-flex flex-row-reverse">
+                            <div class="d-grid gap-2 d-md-block">
+                                <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="MovimentacaoDeCaixa" asp-action="Deletar">Excluir</a>
+                                <a class="btn btn-warning" asp-route-id="@item.Id" asp-controller="MovimentacaoDeCaixa" asp-action="Create">Editar</a>
+                            </div>
+                        </td>
                     </tr>
                 }
             }

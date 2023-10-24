@@ -3,7 +3,7 @@ using Estacionamento.Domain.Pagination;
 using System;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
-namespace Estacionamento.Domain.Clientes;
+namespace Estacionamento.Domain.Usuarios;
 
 public interface IGerenciadorDeUsuario
 {

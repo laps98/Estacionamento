@@ -1,10 +1,10 @@
-﻿@using Estacionamento.Domain.Clientes;
+﻿@using Estacionamento.Domain.Usuarios;
 @using Estacionamento.Domain.Enums;
 @using Estacionamento.Domain.MovimentacoesDeCaixa;
 @model MovimentacaoDeCaixa
 @{
     var fluxos = Html.GetEnumSelectList<Fluxo>();
-    ViewBag.Title = "Cliente";
+    ViewBag.Title = "Caixa";
 }
 @section scripts{
     <script src=""></script>
@@ -31,23 +31,22 @@
                             @Html.ValidationMessageFor(q => q.Valor)
                         </div>
                     </div>
-
-                    <select asp-for="Fluxo" asp-items="fluxos" class="form-control"></select>
-                    @Html.ValidationMessageFor(q => q.Fluxo)
+                    <div class="col-lg-4 mt-3">
+                        <label for="Fluxo">Fluxo</label>
+                        <select asp-for="Fluxo" asp-items="fluxos" class="form-control"></select>
+                        @Html.ValidationMessageFor(q => q.Fluxo)
+                    </div>
 
                     <div class="col-lg-4 mt-3">
-                        @*                         <div class="form-group">
-                        <label for="Data">Data</label>
-                        <input type="text" asp-for="Data" class="form-control" id="Data" placeholder="Data">
-                        </div> *@
                         @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label" })
                         @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="mt-3">
-                    <button class="btn btn-primary btn-block">Adicionar</button>
+                <div class="text-end mt-3">
+                    <a class="btn btn-secondary" asp-controller="MovimentacaoDeCaixa" asp-action="Index">Voltar</a>
+                    <button class="btn btn-success btn-block">Adicionar</button>
                 </div>
 
             </div>
