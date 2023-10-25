@@ -6,9 +6,7 @@
     ViewBag.Title = "Caixa";
 }
 @section scripts{
-
 }
-
 <div>
     <div class="row">
         <div class="col-6">
@@ -18,7 +16,6 @@
             <a class="btn btn-success px-5" asp-controller="MovimentacaoDeCaixa" asp-action="Create">Adicionar <i class="fas fa-plus"></i></a>
         </div>
     </div>
-
     <table class="table">
         <thead>
             <tr>
@@ -50,7 +47,5 @@
             }
         </tbody>
     </table>
-
     @Html.Pagination(Model, "MovimentacaoDeCaixa")
-
 </div>
