@@ -14,10 +14,11 @@ namespace Estacionamento.Controllers;
 public class HomeController : Controller
 {
     private readonly IEstacionamentoContext _context;
-
-    public HomeController(IEstacionamentoContext context)
+    private readonly IGerenciadorDeMovimentacaoDeVeiculo _gerenciador;
+    public HomeController(IEstacionamentoContext context, IGerenciadorDeMovimentacaoDeVeiculo gerenciadorDeVeiculo)
     {
         _context = context;
+        _gerenciador = gerenciadorDeVeiculo;
     }
 
     //public HomeController(ILogger<HomeController> logger)
@@ -55,5 +56,27 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpPost]
+    public IActionResult Create(MovimentacaoDeVeiculo movimentacao)
+    {
+        try
+        {
+            if (movimentacao.Id == 0)
+            {
+                _gerenciador.Save(movimentacao);
+                TempData["MensagemSucesso"] = "Movimentação cadastrada com sucesso";
+
+                return RedirectToAction("Index");
+            }
+
+            return View("Index", movimentacao);
+        }
+        catch (Exception ex)
+        {
+            TempData["MensagemErro"] = ex;
+            return View("Home", movimentacao);
+        }
     }
 }

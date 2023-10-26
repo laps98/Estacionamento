@@ -1,5 +1,7 @@
 ﻿using Estacionamento.Domain.Context;
+using Estacionamento.Domain.Enums;
 using Estacionamento.Domain.Pagination;
+using System.ComponentModel.DataAnnotations;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Domain.MovimentacoesDeVeiculo;
@@ -10,6 +12,7 @@ public interface IGerenciadorDeMovimentacaoDeVeiculo
     MovimentacaoDeVeiculo Get(int id);
     void Delete(int id);
     ResponsePagination<MovimentacaoDeVeiculo> Buscar(QueryFilter filter);
+    MovimentacaoDeVeiculo Calcular(string placa);
 }
 internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDeVeiculo
 {
@@ -30,7 +33,7 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
     }
     public void Update(MovimentacaoDeVeiculo movimentacao)
     {
-        if (movimentacao.Id == 0)
+        if (movimentacao == null ||movimentacao.Id == 0 )
         {
             throw new Exception("Erro inesperado ao atualizar movimentação");
         }
@@ -62,5 +65,51 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
             Items = lista,
             Total = contador,
         };
+    }
+
+    public MovimentacaoDeVeiculo Calcular(string placa)
+    {
+        var hoje = new DateTime();
+        var movimentacao = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Placa == placa &&
+                                                                               q.DataDeEntrada.Date == hoje.Date &&
+                                                                               q.DataDeSaida == null);
+        if (movimentacao == null)
+            throw new Exception("Não foi encontrado nenhum veículo");
+        var tabela = _context.TabelasDePreco.First(q => q.Id == movimentacao.IdTabelaDePreco);
+
+        var valorAPAgar = (decimal)(hoje - movimentacao.DataDeEntrada).TotalMinutes / tabela.Periodo * tabela.Valor;
+
+        movimentacao.DataDeSaida = hoje;
+        movimentacao.Valor = valorAPAgar;
+
+        return new MovimentacaoDeVeiculo
+        {
+            Id = movimentacao.Id,
+            IdTabelaDePreco = movimentacao.IdTabelaDePreco,
+            Placa = movimentacao.Placa,
+            Observacao = movimentacao.Observacao,
+            Fluxo = movimentacao.Fluxo,
+            Valor = movimentacao.Valor,
+            DataDeEntrada = movimentacao.DataDeEntrada,
+            DataDeSaida = movimentacao.DataDeSaida,
+        };
+    }
+
+    public void Baixar(int id)
+    {
+        var hoje = new DateTime();
+        var movimentacao = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Id == id &&
+                                                                               q.DataDeEntrada.Date == hoje.Date &&
+                                                                               q.DataDeSaida == null);
+        if (movimentacao == null)
+            throw new Exception("Não foi encontrado nenhum veículo");
+        var tabela = _context.TabelasDePreco.First(q => q.Id == movimentacao.IdTabelaDePreco);
+
+        var valorAPAgar = (decimal)(hoje - movimentacao.DataDeEntrada).TotalMinutes / tabela.Periodo * tabela.Valor;
+
+        movimentacao.DataDeSaida = hoje;
+        movimentacao.Valor = valorAPAgar;
+
+        _context.SaveChanges();
     }
 }
