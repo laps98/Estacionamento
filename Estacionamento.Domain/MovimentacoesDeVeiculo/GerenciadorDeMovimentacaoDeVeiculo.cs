@@ -94,13 +94,12 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
             DataDeSaida = movimentacao.DataDeSaida,
         };
     }
-
-    public void Baixar(int id)
+    public void Baixar(MovimentacaoDeVeiculo movimentacao)
     {
         var hoje = new DateTime();
-        var movimentacao = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Id == id &&
-                                                                               q.DataDeEntrada.Date == hoje.Date &&
-                                                                               q.DataDeSaida == null);
+        //var movimentacaoD = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Id == id &&
+        //                                                                       q.DataDeEntrada.Date == hoje.Date &&
+        //                                                                       q.DataDeSaida == null);
         if (movimentacao == null)
             throw new Exception("Não foi encontrado nenhum veículo");
         var tabela = _context.TabelasDePreco.First(q => q.Id == movimentacao.IdTabelaDePreco);

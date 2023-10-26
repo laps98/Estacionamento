@@ -5,6 +5,7 @@
 @model MovimentacaoDeVeiculo
 @{
     ViewBag.Title = "Estacionar";
+    MovimentacaoDeVeiculo movimentacao = ViewBag.Movimentacao;
     var fluxos = Html.GetEnumSelectList<Fluxo>();
     ResponsePagination<MovimentacaoDeVeiculo> listagemDeVeiculos = ViewBag.ListagemDeVeiculos;
 }
@@ -32,7 +33,7 @@
             <h3>@ViewBag.Title</h3>
         </div>
         <div class="col-4 d-flex flex-column align-items-center">
-            <button type="button" class="btn btn-warning px-5">
+            <button type="button" class="btn btn-warning px-5" data-bs-toggle="modal" data-bs-target="#baixarMovimentacao">
                 Baixar
             </button>
         </div>
@@ -139,8 +140,8 @@
         </div>
     </div>
 </div>
-@*
-<div class="modal fade" id="calcularMovimentacao" tabindex="-1" aria-hidden="true">
+
+<div class="modal fade" id="baixarMovimentacao" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -149,20 +150,20 @@
             <div class="modal-body">
 
                 <form asp-controller="Home" asp-action="SalvarBaixa" method="post">
-                    <input type="hidden" asp-for="Id">
+                    <input type="hidden" asp-for="@movimentacao.Id">
                     <div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="Placa">Placa</label>
-                                        <input type="text" asp-for="Placa" class="form-control" placeholder="Placa">
+                                        <input type="text" asp-for="@movimentacao.Placa" class="form-control" placeholder="Placa">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="IdTabelaDePreco">Tabela</label>
-                                        <select asp-for="IdTabelaDePreco" class="form-control"
+                                        <select asp-for="@movimentacao.IdTabelaDePreco" class="form-control"
                                                 asp-items="@ViewBag.TabelaDePreco">
                                             <option></option>
                                         </select>
@@ -170,12 +171,12 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="dt">Entrada</label>
-                                    <input type="datetime-local" asp-for="Observacao" class="form-control" placeholder="Observação" id="dt" disabled>
+                                    <input type="datetime-local" asp-for="@movimentacao.Observacao" class="form-control" placeholder="Observação" id="dt" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Observacao">Observacao</label>
-                                <input type="text" asp-for="Observacao" class="form-control" placeholder="Observação">
+                                <input type="text" asp-for="@movimentacao.Observacao" class="form-control" placeholder="Observação">
                             </div>
                         </div>
                     </div>
@@ -189,4 +190,3 @@
     </div>
 </div>
 
- *@

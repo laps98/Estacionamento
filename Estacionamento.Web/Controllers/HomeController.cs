@@ -6,6 +6,7 @@ using Estacionamento.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
@@ -59,7 +60,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(MovimentacaoDeVeiculo movimentacao)
+    public IActionResult Baixar(MovimentacaoDeVeiculo movimentacao)
     {
         try
         {
@@ -77,6 +78,27 @@ public class HomeController : Controller
         {
             TempData["MensagemErro"] = ex;
             return View("Home", movimentacao);
+        }
+    }
+
+    [HttpGet]
+    public IActionResult Calcular(string placa)
+    {
+        try
+        {
+            if (placa.IsNullOrEmpty())
+            {
+               var movimentacao = _gerenciador.Calcular(placa);
+
+                return RedirectToAction("Index", movimentacao);
+            }
+
+            return View();
+        }
+        catch (Exception ex)
+        {
+            TempData["MensagemErro"] = ex;
+            return View();
         }
     }
 }
