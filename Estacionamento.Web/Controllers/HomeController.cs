@@ -22,11 +22,6 @@ public class HomeController : Controller
         _gerenciador = gerenciadorDeVeiculo;
     }
 
-    //public HomeController(ILogger<HomeController> logger)
-    //{
-    //    _logger = logger;
-    //}
-
     public IActionResult Index(QueryFilter filter)
     {
         var lista = _context.MovimentacoesDeVeiculo.AsNoTracking();
@@ -42,6 +37,19 @@ public class HomeController : Controller
         ViewBag.ListagemDeVeiculos = response;
 
         return View(movimentacaoDeVeiculo);
+    }
+    public IActionResult Baixar(MovimentacaoDeVeiculo? movimentacaoDeVeiculo)
+    {
+
+        if (movimentacaoDeVeiculo != null)
+        {
+            Dropdown(movimentacaoDeVeiculo);
+
+            return View(movimentacaoDeVeiculo);
+        }
+        Dropdown();
+        return View();
+
     }
     private void Dropdown(MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
     {
@@ -60,7 +68,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Baixar(MovimentacaoDeVeiculo movimentacao)
+    public IActionResult Create(MovimentacaoDeVeiculo movimentacao)
     {
         try
         {
@@ -88,9 +96,9 @@ public class HomeController : Controller
         {
             if (placa.IsNullOrEmpty())
             {
-               var movimentacao = _gerenciador.Calcular(placa);
+                var movimentacao = _gerenciador.Calcular(placa);
 
-                return RedirectToAction("Index", movimentacao);
+                return View("Baixar", movimentacao);
             }
 
             return View();

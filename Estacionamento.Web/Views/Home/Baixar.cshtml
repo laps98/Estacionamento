@@ -32,62 +32,27 @@
         <div class="col-6">
             <h3>@ViewBag.Title</h3>
         </div>
+        <!-- Todo achar uma forma de enviar por query string  -->
+        <form asp-controller="Home" asp-action="Calcular" a´p method="get">
+            <div class="form-group">
+                <label for="Placa">Placa</label>
+                <input type="text" class="form-control" id="SearchText" name="SearchText" />
+            </div>
+        </form>
+
         <div class="col-6 d-flex flex-column align-items-end">
             <button type="button" class="btn btn-success px-5" data-bs-toggle="modal" data-bs-target="#lancarVeiculo">
                 Adicionar <i class="fas fa-plus"></i>
             </button>
         </div>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Descrição</th>
-                <th>Movimentação</th>
-                <th>Entrada</th>
-                <th>Saída</th>
-                <th></th>
-            </tr>
-        </thead>
-
-        @if (listagemDeVeiculos.Any())
-        {
-            <tbody>
-                @foreach (var item in listagemDeVeiculos)
-                {
-                    <tr>
-                        <th scope="row">@item.Id</th>
-                        <td>@item.Placa</td>
-                        <td>@item.Fluxo</td>
-                        <td>@item.DataDeEntrada.ToShortDateString()</td>
-                        <td>@(item.DataDeSaida?.ToShortDateString())</td>
-                        <td class="text-end">
-                            @if (item.DataDeSaida == null)
-                            {
-                                <button type="button" class="btn btn-warning">
-                                    Baixar
-                                </button>
-                                <button type="button" class="btn btn-danger">
-                                    Excluir
-                                </button>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        }
-    </table>
-    @if (listagemDeVeiculos.Any())
-    {
-        @Html.Pagination((ResponsePagination<MovimentacaoDeVeiculo>)ViewBag.ListagemDeVeiculos, "Home")
-    }
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="lancarVeiculo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form asp-controller="Home" asp-action="Create" method="post">
+            <form asp-controller="Home" asp-action="Baixar" method="post">
                 <div class="modal-header">
                     <h3 class="modal-title">@ViewBag.Title</h3>
                 </div>
