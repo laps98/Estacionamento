@@ -94,14 +94,14 @@ public class HomeController : Controller
     {
         try
         {
-            if (placa.IsNullOrEmpty())
+            if (!placa.IsNullOrEmpty())
             {
                 var movimentacao = _gerenciador.Calcular(placa);
 
                 return View("Baixar", movimentacao);
             }
 
-            return View();
+            return RedirectToAction("Baixar");
         }
         catch (Exception ex)
         {

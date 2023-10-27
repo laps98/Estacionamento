@@ -33,18 +33,16 @@
             <h3>@ViewBag.Title</h3>
         </div>
         <!-- Todo achar uma forma de enviar por query string  -->
-        <form asp-controller="Home" asp-action="Calcular" a´p method="get">
-            <div class="form-group">
-                <label for="Placa">Placa</label>
-                <input type="text" class="form-control" id="SearchText" name="SearchText" />
+        <form asp-controller="Home" asp-action="Calcular" method="get">
+
+            <input type="text" class="form-control" name="placa" />
+
+            <div class="col-6 d-flex flex-column align-items-end">
+                <button type="submit" src="" class="btn btn-success px-5" data-bs-toggle="modal" data-bs-target="#lancarVeiculo">
+                    Adicionar <i class="fas fa-plus"></i>
+                </button>
             </div>
         </form>
-
-        <div class="col-6 d-flex flex-column align-items-end">
-            <button type="button" class="btn btn-success px-5" data-bs-toggle="modal" data-bs-target="#lancarVeiculo">
-                Adicionar <i class="fas fa-plus"></i>
-            </button>
-        </div>
     </div>
 </div>
 
