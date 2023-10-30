@@ -12,7 +12,8 @@ public interface IGerenciadorDeMovimentacaoDeVeiculo
     MovimentacaoDeVeiculo Get(int id);
     void Delete(int id);
     ResponsePagination<MovimentacaoDeVeiculo> Buscar(QueryFilter filter);
-    MovimentacaoDeVeiculo Calcular(string placa);
+    MovimentacaoDeVeiculo CalcularPelaPlaca(string placa);
+    MovimentacaoDeVeiculo CalcularPelaMovimentacaoDoVeiculo(MovimentacaoDeVeiculo movimentacao);
 }
 internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDeVeiculo
 {
@@ -67,20 +68,32 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
         };
     }
 
-    public MovimentacaoDeVeiculo Calcular(string placa)
+    public MovimentacaoDeVeiculo CalcularPelaPlaca(string placa)
     {
         var hoje = DateTime.Now;
         var movimentacao = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Placa == placa &&
                                                                                q.DataDeEntrada.Date == hoje.Date &&
                                                                                q.DataDeSaida == null);
+        return CalcularMovimentacao(hoje, movimentacao);
+    }
+    public MovimentacaoDeVeiculo CalcularPelaMovimentacaoDoVeiculo(MovimentacaoDeVeiculo movimentacao)
+    {
+        var hoje = DateTime.Now;
+
+        return CalcularMovimentacao(hoje, movimentacao);
+    }
+
+    private MovimentacaoDeVeiculo CalcularMovimentacao(DateTime hoje, MovimentacaoDeVeiculo? movimentacao)
+    {
         if (movimentacao == null)
             throw new Exception("Não foi encontrado nenhum veículo");
         var tabela = _context.TabelasDePreco.First(q => q.Id == movimentacao.IdTabelaDePreco);
 
-        var valorAPAgar = (decimal)(hoje - movimentacao.DataDeEntrada).TotalMinutes / tabela.Periodo * tabela.Valor;
+
+        var valorAPagar = Math.Round((decimal)(hoje - movimentacao.DataDeEntrada).TotalMinutes / tabela.Periodo * tabela.Valor, 2);
 
         movimentacao.DataDeSaida = hoje;
-        movimentacao.Valor = valorAPAgar;
+        movimentacao.Valor = Math.Max(valorAPagar, tabela.Valor);
 
         return new MovimentacaoDeVeiculo
         {
@@ -94,6 +107,7 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
             DataDeSaida = movimentacao.DataDeSaida,
         };
     }
+
     public void Baixar(MovimentacaoDeVeiculo movimentacao)
     {
         var hoje = new DateTime();

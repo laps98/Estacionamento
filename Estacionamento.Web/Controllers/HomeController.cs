@@ -38,6 +38,13 @@ public class HomeController : Controller
 
         return View(movimentacaoDeVeiculo);
     }
+    public IActionResult BaixarDaHome(int id)
+    {
+            var movimentacaoDeVeiculo = _context.MovimentacoesDeVeiculo.First(q => q.Id == id);
+            Dropdown(movimentacaoDeVeiculo);
+
+            return RedirectToAction("CalcularDaHome", movimentacaoDeVeiculo);
+    }
     public IActionResult Baixar(MovimentacaoDeVeiculo? movimentacaoDeVeiculo)
     {
 
@@ -66,7 +73,6 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-
     [HttpPost]
     public IActionResult Create(MovimentacaoDeVeiculo movimentacao)
     {
@@ -88,7 +94,6 @@ public class HomeController : Controller
             return View("Home", movimentacao);
         }
     }
-
     [HttpGet]
     public IActionResult Calcular(string placa)
     {
@@ -96,7 +101,7 @@ public class HomeController : Controller
         {
             if (!placa.IsNullOrEmpty())
             {
-                var movimentacao = _gerenciador.Calcular(placa);
+                var movimentacao = _gerenciador.CalcularPelaPlaca(placa);
 
                 Dropdown(movimentacao);
                 return View("Baixar", movimentacao);
@@ -107,7 +112,34 @@ public class HomeController : Controller
         catch (Exception ex)
         {
             TempData["MensagemErro"] = ex.Message;
-            return RedirectToAction("Baixar", "Home");
+            return RedirectToAction("Baixar");
         }
+    }
+    [HttpGet]
+    public IActionResult CalcularDaHome(MovimentacaoDeVeiculo movimentacao)
+    {
+        try
+        {
+            if (movimentacao!=null)
+            {
+                movimentacao = _gerenciador.CalcularPelaMovimentacaoDoVeiculo(movimentacao);
+
+                Dropdown(movimentacao);
+                return View("Baixar", movimentacao);
+            }
+
+            return RedirectToAction("Baixar");
+        }
+        catch (Exception ex)
+        {
+            TempData["MensagemErro"] = ex.Message;
+            return RedirectToAction("Baixar");
+        }
+    }
+    public IActionResult Delete(int id)
+    {
+        _gerenciador.Delete(id);
+
+        return RedirectToAction("Index");
     }
 }

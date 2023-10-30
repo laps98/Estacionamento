@@ -64,12 +64,9 @@
                         <td class="text-end">
                             @if (item.DataDeSaida == null)
                             {
-                                <button type="button" class="btn btn-warning">
-                                    Baixar
-                                </button>
-                                <button type="button" class="btn btn-danger">
-                                    Excluir
-                                </button>
+                                <a class="btn btn-warning" asp-route-id="@item.Id" asp-controller="Home" asp-action="BaixarDaHome">Baixar</a>
+
+                                <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Home" asp-action="Delete">Excluir</a>
                             }
                         </td>
                     </tr>
@@ -114,7 +111,7 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="dt">Entrada</label>
-                                    <input type="datetime-local" asp-for="Observacao" class="form-control" placeholder="Observação" id="dt" disabled>
+                                    <input type="datetime-local" asp-for="DataDeEntrada" class="form-control" id="dt" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
