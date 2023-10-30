@@ -41,7 +41,7 @@ public class HomeController : Controller
     public IActionResult Baixar(MovimentacaoDeVeiculo? movimentacaoDeVeiculo)
     {
 
-        if (movimentacaoDeVeiculo != null)
+        if (movimentacaoDeVeiculo != null && movimentacaoDeVeiculo.Id != 0)
         {
             Dropdown(movimentacaoDeVeiculo);
 
@@ -98,6 +98,7 @@ public class HomeController : Controller
             {
                 var movimentacao = _gerenciador.Calcular(placa);
 
+                Dropdown(movimentacao);
                 return View("Baixar", movimentacao);
             }
 
@@ -105,8 +106,8 @@ public class HomeController : Controller
         }
         catch (Exception ex)
         {
-            TempData["MensagemErro"] = ex;
-            return View();
+            TempData["MensagemErro"] = ex.Message;
+            return RedirectToAction("Baixar", "Home");
         }
     }
 }

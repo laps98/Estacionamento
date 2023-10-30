@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+px-custom-lg {
+    padding-right: 8rem !important;
+    padding-left: 8rem !important;
+}

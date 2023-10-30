@@ -69,7 +69,7 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
 
     public MovimentacaoDeVeiculo Calcular(string placa)
     {
-        var hoje = new DateTime();
+        var hoje = DateTime.Now;
         var movimentacao = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Placa == placa &&
                                                                                q.DataDeEntrada.Date == hoje.Date &&
                                                                                q.DataDeSaida == null);

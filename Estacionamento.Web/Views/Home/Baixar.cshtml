@@ -11,19 +11,24 @@
 }
 
 @section scripts{
+        @if (Model != null)
+        {
+            <script type="text/javascript" >
+
+            var modal = new bootstrap.Modal(document.getElementById('lancarVeiculo'))
+            modal.show();
+            </Script>
+        }
     <script type="text/javascript">
-        var modal = new bootstrap.Modal(document.getElementById('lancarVeiculo'))
-        modal.show();
 
-        // $(document.querySelector("Placa")).click(function () {
-        //     $("Placa").focus();
-        // });
-
-        setInterval(function () {
-            var now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            document.getElementById('dt').value = now.toISOString().slice(0, 16);
-        }, 1000);
+            // $(document.querySelector("Placa")).click(function () {
+            //     $("Placa").focus();
+            // });
+            setInterval(function () {
+                var now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                document.getElementById('dt').value = now.toISOString().slice(0, 16);
+            }, 1000);
     </script>
 }
 
@@ -34,64 +39,73 @@
         </div>
         <!-- Todo achar uma forma de enviar por query string  -->
         <form asp-controller="Home" asp-action="Calcular" method="get">
+            <div>
+            <input type="text" class="form-control text-center" name="placa" />
+            </div>
 
-            <input type="text" class="form-control" name="placa" />
-
-            <div class="col-6 d-flex flex-column align-items-end">
+            <div class="text-center mt-3">
                 <button type="submit" src="" class="btn btn-success px-5" data-bs-toggle="modal" data-bs-target="#lancarVeiculo">
-                    Adicionar <i class="fas fa-plus"></i>
+                    Verificar
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="lancarVeiculo" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form asp-controller="Home" asp-action="Baixar" method="post">
-                <div class="modal-header">
-                    <h3 class="modal-title">@ViewBag.Title</h3>
-                </div>
-                <div class="modal-body">
+@if (Model != null)
+{
 
-                    <input type="hidden" asp-for="Id">
-                    <div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="Placa">Placa</label>
-                                        <input type="text" asp-for="Placa" class="form-control" placeholder="Placa">
+    <!-- Modal -->
+    <div class="modal fade" id="lancarVeiculo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form asp-controller="Home" asp-action="Baixar" method="post">
+                    <div class="modal-header">
+                        <h3 class="modal-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" asp-for="Id">
+                        <div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-3 mt-3">
+                                        <div class="form-group">
+                                            <label for="Placa">Placa</label>
+                                            <input type="text" asp-for="Placa" class="form-control" placeholder="Placa" disabled>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="IdTabelaDePreco">Tabela</label>
-                                        <select asp-for="IdTabelaDePreco" class="form-control"
-                                                asp-items="@ViewBag.TabelaDePreco">
-                                            <option></option>
-                                        </select>
+                                    <div class="col-lg-3 mt-3">
+                                        <div class="form-group">
+                                            <label for="IdTabelaDePreco">Tabela</label>
+                                            <select asp-for="IdTabelaDePreco" class="form-control" disabled
+                                                    asp-items="@ViewBag.TabelaDePreco">
+                                                <option></option>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="col-lg-3 mt-3">
+                                        <label for="dt">Entrada</label>
+                                        <input type="datetime-local" asp-for="DataDeEntrada" class="form-control" placeholder="Observação" id="dt" disabled>
+                                    </div>
+                                     <div class="col-lg-3 mt-3">
+                                            <label for="dt">Valor</label>
+                                            <input type="text" asp-for="Valor" class="form-control" placeholder="Valor" id="Valor">
+                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <label for="dt">Entrada</label>
-                                    <input type="datetime-local" asp-for="Observacao" class="form-control" placeholder="Observação" id="dt" disabled>
+                                <div class="form-group">
+                                    <label for="Observacao">Observacao</label>
+                                    <input type="text" asp-for="Observacao" class="form-control" placeholder="Observação" disabled>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Observacao">Observacao</label>
-                                <input type="text" asp-for="Observacao" class="form-control" placeholder="Observação">
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
-                    <button class="btn btn-success btn-block">Adicionar</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                        <button class="btn btn-success btn-block">Adicionar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+}
