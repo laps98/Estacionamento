@@ -115,7 +115,7 @@ public class HomeController : Controller
             return RedirectToAction("Baixar");
         }
     }
-    [HttpGet]
+
     public IActionResult CalcularDaHome(MovimentacaoDeVeiculo movimentacao)
     {
         try
@@ -125,7 +125,7 @@ public class HomeController : Controller
                 movimentacao = _gerenciador.CalcularPelaMovimentacaoDoVeiculo(movimentacao);
 
                 Dropdown(movimentacao);
-                return View("Baixar", movimentacao);
+                return RedirectToAction("Baixar", movimentacao);
             }
 
             return RedirectToAction("Baixar");
