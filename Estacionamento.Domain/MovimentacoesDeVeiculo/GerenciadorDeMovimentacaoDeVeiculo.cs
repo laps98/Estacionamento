@@ -1,5 +1,7 @@
-﻿using Estacionamento.Domain.Context;
+﻿using Estacionamento.Doamin.Helpers;
+using Estacionamento.Domain.Context;
 using Estacionamento.Domain.Enums;
+using Estacionamento.Domain.MovimentacoesDeCaixa;
 using Estacionamento.Domain.Pagination;
 using System.ComponentModel.DataAnnotations;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
@@ -12,8 +14,9 @@ public interface IGerenciadorDeMovimentacaoDeVeiculo
     MovimentacaoDeVeiculo Get(int id);
     void Delete(int id);
     ResponsePagination<MovimentacaoDeVeiculo> Buscar(QueryFilter filter);
-    MovimentacaoDeVeiculo CalcularPelaPlaca(string placa);
+    MovimentacaoDeVeiculo CalcularPorPlaca(string placa);
     MovimentacaoDeVeiculo CalcularPelaMovimentacaoDoVeiculo(MovimentacaoDeVeiculo movimentacao);
+    void Baixar(MovimentacaoDeVeiculo movimentacao);
 }
 internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDeVeiculo
 {
@@ -34,7 +37,7 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
     }
     public void Update(MovimentacaoDeVeiculo movimentacao)
     {
-        if (movimentacao == null ||movimentacao.Id == 0 )
+        if (movimentacao == null || movimentacao.Id == 0)
         {
             throw new Exception("Erro inesperado ao atualizar movimentação");
         }
@@ -68,7 +71,7 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
         };
     }
 
-    public MovimentacaoDeVeiculo CalcularPelaPlaca(string placa)
+    public MovimentacaoDeVeiculo CalcularPorPlaca(string placa)
     {
         var hoje = DateTime.Now;
         var movimentacao = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Placa == placa &&
@@ -89,8 +92,8 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
             throw new Exception("Não foi encontrado nenhum veículo");
         var tabela = _context.TabelasDePreco.First(q => q.Id == movimentacao.IdTabelaDePreco);
 
-
-        var valorAPagar = Math.Round((decimal)(hoje - movimentacao.DataDeEntrada).TotalMinutes / tabela.Periodo * tabela.Valor, 2);
+        var tempo = Math.Round((decimal)(hoje - movimentacao.DataDeEntrada).TotalMinutes / tabela.Periodo);
+        var valorAPagar = Math.Round(tempo * tabela.Valor, 2);
 
         movimentacao.DataDeSaida = hoje;
         movimentacao.Valor = Math.Max(valorAPagar, tabela.Valor);
@@ -111,18 +114,22 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
     public void Baixar(MovimentacaoDeVeiculo movimentacao)
     {
         var hoje = new DateTime();
-        //var movimentacaoD = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Id == id &&
-        //                                                                       q.DataDeEntrada.Date == hoje.Date &&
-        //                                                                       q.DataDeSaida == null);
+
         if (movimentacao == null)
             throw new Exception("Não foi encontrado nenhum veículo");
-        var tabela = _context.TabelasDePreco.First(q => q.Id == movimentacao.IdTabelaDePreco);
 
-        var valorAPAgar = (decimal)(hoje - movimentacao.DataDeEntrada).TotalMinutes / tabela.Periodo * tabela.Valor;
+        _context.MovimentacoesDeVeiculo.Update(movimentacao);
+        _context.SaveChanges();
 
-        movimentacao.DataDeSaida = hoje;
-        movimentacao.Valor = valorAPAgar;
-
+        var caixa = new MovimentacaoDeCaixa
+        {
+            IdMovimentacaoDeVeiculo = movimentacao.Id,
+            Descricao = "Movimentação de veículo",
+            Valor = movimentacao.Valor,
+            Fluxo = Fluxo.Entrada,
+            Data = hoje.HorarioDeBrasilia(),
+        };
+        _context.MovimentacoesDeCaixa.Add(caixa);
         _context.SaveChanges();
     }
 }

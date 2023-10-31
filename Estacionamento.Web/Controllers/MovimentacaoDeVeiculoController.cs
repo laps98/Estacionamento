@@ -69,7 +69,7 @@ public class MovimentacaoDeVeiculoController : Controller
     [HttpGet]
     public IActionResult Calcular(string placa)
     {
-        var movimentacao = _gerenciador.CalcularPelaPlaca(placa);
+        var movimentacao = _gerenciador.CalcularPorPlaca(placa);
         return ViewBag.Movimentacao = movimentacao;
     }
 }

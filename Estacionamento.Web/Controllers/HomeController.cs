@@ -24,11 +24,11 @@ public class HomeController : Controller
 
     public IActionResult Index(QueryFilter filter)
     {
-        var lista = _context.MovimentacoesDeVeiculo.AsNoTracking();
+        var hoje = DateTime.Now;
+        var lista = _context.MovimentacoesDeVeiculo.AsNoTracking().Where(q => q.DataDeEntrada.Date == hoje.Date);
         var response = new ResponsePagination<MovimentacaoDeVeiculo>(filter).Buscar(lista, filter);
 
         Dropdown();
-        var hoje = DateTime.Now;
         var movimentacaoDeVeiculo = new MovimentacaoDeVeiculo
         {
             DataDeEntrada = DateTimeHelper.Atual(hoje)
@@ -40,10 +40,10 @@ public class HomeController : Controller
     }
     public IActionResult BaixarDaHome(int id)
     {
-            var movimentacaoDeVeiculo = _context.MovimentacoesDeVeiculo.First(q => q.Id == id);
-            Dropdown(movimentacaoDeVeiculo);
+        var movimentacaoDeVeiculo = _context.MovimentacoesDeVeiculo.First(q => q.Id == id);
+        Dropdown(movimentacaoDeVeiculo);
 
-            return RedirectToAction("CalcularDaHome", movimentacaoDeVeiculo);
+        return RedirectToAction("CalcularDaHome", movimentacaoDeVeiculo);
     }
     public IActionResult Baixar(MovimentacaoDeVeiculo? movimentacaoDeVeiculo)
     {
@@ -101,7 +101,7 @@ public class HomeController : Controller
         {
             if (!placa.IsNullOrEmpty())
             {
-                var movimentacao = _gerenciador.CalcularPelaPlaca(placa);
+                var movimentacao = _gerenciador.CalcularPorPlaca(placa);
 
                 Dropdown(movimentacao);
                 return View("Baixar", movimentacao);
@@ -120,7 +120,7 @@ public class HomeController : Controller
     {
         try
         {
-            if (movimentacao!=null)
+            if (movimentacao != null)
             {
                 movimentacao = _gerenciador.CalcularPelaMovimentacaoDoVeiculo(movimentacao);
 

@@ -12,4 +12,9 @@ public static class DateTimeHelper
         var minuto = data.Minute;
         return new DateTime(ano, mes, dia, hora, minuto, 0);
     }
+
+    public static DateTime HorarioDeBrasilia(this DateTime data)
+    {
+        return TimeZoneInfo.ConvertTime(data, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"));
+    }
 }
