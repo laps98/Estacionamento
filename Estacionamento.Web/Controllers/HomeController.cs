@@ -52,6 +52,7 @@ public class HomeController : Controller
         {
             Dropdown(movimentacaoDeVeiculo);
 
+            movimentacaoDeVeiculo.DataDeEntrada = movimentacaoDeVeiculo.DataDeEntrada.HorarioDeBrasilia();
             return View(movimentacaoDeVeiculo);
         }
         Dropdown();

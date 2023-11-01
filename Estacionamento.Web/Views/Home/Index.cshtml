@@ -46,7 +46,7 @@
                 <th>Movimentação</th>
                 <th>Entrada</th>
                 <th>Saída</th>
-                <th></th>
+                @* <th></th> *@
             </tr>
         </thead>
 
@@ -59,16 +59,16 @@
                         <th scope="row">@item.Id</th>
                         <td>@item.Placa</td>
                         <td>@item.Fluxo</td>
-                        <td>@item.DataDeEntrada.ToShortDateString()</td>
-                        <td>@(item.DataDeSaida?.ToShortDateString())</td>
-                        <td class="text-end">
+                        <td>@(item.DataDeEntrada.ToShortDateString() + " " + item.DataDeEntrada.ToShortTimeString())</td>
+                        <td>@(item.DataDeSaida?.ToShortDateString() + " " + item.DataDeSaida?.ToShortTimeString())</td>
+                        @* <td class="text-end">
                             @if (item.DataDeSaida == null)
                             {
                                 <a class="btn btn-warning" asp-route-id="@item.Id" asp-controller="Home" asp-action="BaixarDaHome">Baixar</a>
 
                                 <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Home" asp-action="Delete">Excluir</a>
                             }
-                        </td>
+                        </td> *@
                     </tr>
                 }
             </tbody>

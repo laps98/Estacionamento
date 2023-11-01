@@ -113,7 +113,7 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
 
     public void Baixar(MovimentacaoDeVeiculo movimentacao)
     {
-        var hoje = new DateTime();
+        var hoje = DateTime.Now;
 
         if (movimentacao == null)
             throw new Exception("Não foi encontrado nenhum veículo");
@@ -124,10 +124,10 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
         var caixa = new MovimentacaoDeCaixa
         {
             IdMovimentacaoDeVeiculo = movimentacao.Id,
-            Descricao = "Movimentação de veículo",
+            Descricao = $"Movimentação de veículo - {movimentacao.Placa}",
             Valor = movimentacao.Valor,
             Fluxo = Fluxo.Entrada,
-            Data = hoje.HorarioDeBrasilia(),
+            Data = hoje,
         };
         _context.MovimentacoesDeCaixa.Add(caixa);
         _context.SaveChanges();
