@@ -70,7 +70,6 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
             Total = contador,
         };
     }
-
     public MovimentacaoDeVeiculo CalcularPorPlaca(string placa)
     {
         var hoje = DateTime.Now;
@@ -85,7 +84,6 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
 
         return CalcularMovimentacao(hoje, movimentacao);
     }
-
     private MovimentacaoDeVeiculo CalcularMovimentacao(DateTime hoje, MovimentacaoDeVeiculo? movimentacao)
     {
         if (movimentacao == null)
@@ -110,7 +108,6 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
             DataDeSaida = movimentacao.DataDeSaida,
         };
     }
-
     public void Baixar(MovimentacaoDeVeiculo movimentacao)
     {
         var hoje = DateTime.Now;
