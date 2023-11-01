@@ -67,7 +67,6 @@ public class HomeController : Controller
     {
         return View();
     }
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
@@ -86,12 +85,12 @@ public class HomeController : Controller
                 return RedirectToAction("Index");
             }
 
-            return View("Index", movimentacao);
+            return RedirectToAction("Index", movimentacao);
         }
         catch (Exception ex)
         {
-            TempData["MensagemErro"] = ex;
-            return View("Home", movimentacao);
+            TempData["MensagemErro"] = ex.Message;
+            return RedirectToAction("Home", movimentacao);
         }
     }
     [HttpGet]
@@ -115,7 +114,6 @@ public class HomeController : Controller
             return RedirectToAction("Baixar");
         }
     }
-
     public IActionResult CalcularDaHome(MovimentacaoDeVeiculo movimentacao)
     {
         try
@@ -141,5 +139,26 @@ public class HomeController : Controller
         _gerenciador.Delete(id);
 
         return RedirectToAction("Index");
+    }
+    [HttpPost]
+    public IActionResult BaixarMovimentacao(MovimentacaoDeVeiculo? movimentacao)
+    {
+        try
+        {
+            if (movimentacao != null && movimentacao.Id != 0)
+            {
+                _gerenciador.Baixar(movimentacao);
+                TempData["MensagemSucesso"] = "Baixa executada com sucesso.";
+
+                return RedirectToAction("Baixar");
+            }
+
+            return RedirectToAction("Baixar");
+        }
+        catch (Exception ex)
+        {
+            TempData["MensagemErro"] = ex.Message;
+            return RedirectToAction("Baixar", movimentacao);
+        }
     }
 }
