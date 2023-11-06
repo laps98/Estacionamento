@@ -5,6 +5,7 @@ using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using Estacionamento.Domain.TabelasDePreco;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Estacionamento.Domain.Vagas;
 
 namespace Estacionamento.Domain.Context;
 
@@ -18,6 +19,7 @@ public class EstacionamentoContext : DbContext, IEstacionamentoContext
     public DbSet<MovimentacaoDeCaixa> MovimentacoesDeCaixa { get; set; }
     public DbSet<MovimentacaoDeVeiculo> MovimentacoesDeVeiculo { get; set; }
     public DbSet<TabelaDePreco> TabelasDePreco { get; set; }
+    public DbSet<Vaga> Vagas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -94,13 +94,13 @@
                     <div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label for="Placa">Placa</label>
                                         <input type="text" asp-for="Placa" class="form-control" placeholder="Placa">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label for="IdTabelaDePreco">Tabela</label>
                                         <select asp-for="IdTabelaDePreco" class="form-control"
@@ -109,7 +109,16 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="IdVaga">Vaga</label>
+                                        <select asp-for="IdVaga" class="form-control"
+                                                asp-items="@ViewBag.Vaga">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
                                     <label for="dt">Entrada</label>
                                     <input type="datetime-local" asp-for="DataDeEntrada" class="form-control" id="dt" readonly>
                                 </div>
