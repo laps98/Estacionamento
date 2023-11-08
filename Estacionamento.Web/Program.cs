@@ -1,12 +1,13 @@
 using Estacionamento.Domain;
 using Estacionamento.Domain.Context;
+using Estacionamento.Web.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-builder.Services.AddControllersWithViews();
+builder.AddAutenticationConfiguration();
 
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 services.AddEntityFrameworkSqlServer()
@@ -31,7 +32,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
