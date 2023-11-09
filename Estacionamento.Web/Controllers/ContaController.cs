@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Web.Controllers;
 
-public class AccountController : Controller
+public class ContaController : Controller
 {
     private readonly IEstacionamentoContext _context;
 
-    public AccountController(IEstacionamentoContext context)
+    public ContaController(IEstacionamentoContext context)
     {
         _context = context;
     }
@@ -18,22 +18,26 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(string login, string senha)
+    public IActionResult Index(LoginRequest request)
     {
-        var usuario = _context.Usuarios.FirstOrDefault(q => q.Email == login);
+        var usuario = _context.Usuarios.FirstOrDefault(q => q.Email == request.Login);
 
         //if (usuario == null || !PasswordHelper.VerifyHashedPassword(usuario.Senha, request.Senha))
-        if (usuario == null || (usuario.Senha != senha))
-            return BadRequest(new { Message = "Usuário ou senha inválidos" });
+        if (usuario == null || (usuario.Senha != request.Senha))
+        {
+            ModelState.Clear();
+            ModelState.AddModelError("Login", "Usuário ou senha inválidos");
+            return View(request);
+        }
 
-        TempData["userId"] = usuario.Id;
-        TempData["login"] = usuario.Email;
+        //TempData["userId"] = usuario.Id;
+        //TempData["login"] = usuario.Email;
 
         HttpContext.Session.SetString("_UserId", usuario.Id.ToString());
         HttpContext.Session.SetString("_Login", usuario.Email.ToString());
 
         TempData["loginError"] = false;
-        return RedirectToAction("Index", "Home");
+        return View(request);
 
         //return View();
     }
@@ -41,8 +45,8 @@ public class AccountController : Controller
     public IActionResult Logout()
     {
 
-        TempData["userId"] = null;
-        TempData["login"] = null;
+        //TempData["userId"] = null;
+        //TempData["login"] = null;
 
         HttpContext.Session.Remove("_UserId");
         HttpContext.Session.Remove("_Login");
@@ -52,4 +56,10 @@ public class AccountController : Controller
         return Redirect("Login");
     }
 }
-  
+
+
+public sealed record LoginRequest
+{
+    public string Login { get; set; }
+    public string Senha { get; set; }
+}
