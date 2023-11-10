@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var login = Context.Session.GetString("_Login");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -38,6 +41,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuário</a>
                         </li>
+                        @**@
+                        @if(login != null){
+                            
+                        <li class="nav-item">
+                            <span>@login</span>
+                        </li>
+                        }
+
                     </ul>
                 </div>
             </div>

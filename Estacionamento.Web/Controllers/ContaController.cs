@@ -37,7 +37,7 @@ public class ContaController : Controller
         HttpContext.Session.SetString("_Login", usuario.Email.ToString());
 
         TempData["loginError"] = false;
-        return View(request);
+        return RedirectToAction("Index","Home");
 
         //return View();
     }
