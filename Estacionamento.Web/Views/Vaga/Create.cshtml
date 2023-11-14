@@ -1,0 +1,30 @@
+﻿@using Estacionamento.Domain.Vagas;
+@model Vaga
+@{
+    ViewBag.Title = "Vaga";
+}
+@section scripts{
+    <script src=""></script>
+}
+<form asp-controller="Vaga" asp-action="Create" method="post">
+    <input type="hidden" asp-for="Id">
+    <div>
+        <h3>@ViewBag.Title</h3>
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <div class="form-group">
+                        <label for="Nome">Nome</label>
+                        <input type="text" asp-for="Nome" class="form-control" id="Nome" placeholder="Nome">
+                        @Html.ValidationMessageFor(q => q.Nome)
+                    </div>
+                </div>
+                <div class="mt-3 text-end">
+                    <a class="btn btn-secondary" asp-controller="Vaga" asp-action="Index">Voltar</a>
+                    <button class="btn btn-success btn-block">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

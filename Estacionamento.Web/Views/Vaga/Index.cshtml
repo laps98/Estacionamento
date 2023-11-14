@@ -1,0 +1,49 @@
+﻿@using Estacionamento.Domain.Vagas;
+@using Estacionamento.Web.Helpers;
+@using static Estacionamento.Domain.Pagination.PaginationHelper;
+@model ResponsePagination<Vaga>
+@{
+    ViewBag.Title = "Vaga";
+}
+@section scripts{
+}
+<div>
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>@ViewBag.Title</h3>
+        </div>
+        <div class="col-lg-6 d-flex flex-column align-items-end">
+            <a class="btn btn-success  px-5" asp-controller="Vaga" asp-action="Create">Adicionar <i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col"></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Nome</td>
+
+                        <td class="d-flex flex-row-reverse">
+                            <div class="d-grid gap-2 d-md-block">
+                                <a class="btn btn-danger" asp-route-id="@item.Id" asp-controller="Vaga" asp-action="Deletar">Excluir</a>
+                                <a class="btn btn-warning" asp-route-id="@item.Id" asp-controller="Vaga" asp-action="Create">Editar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @Html.Pagination(Model, "Vaga")
+</div>

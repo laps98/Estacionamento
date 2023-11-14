@@ -1,9 +1,9 @@
-﻿using Estacionamento.Domain.Usuarios;
-using Estacionamento.Domain.MovimentacoesDeCaixa;
+﻿using Estacionamento.Domain.MovimentacoesDeCaixa;
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using Estacionamento.Domain.TabelasDePreco;
+using Estacionamento.Domain.Usuarios;
+using Estacionamento.Domain.Vagas;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.Contracts;
 
 namespace Estacionamento.Domain;
 
@@ -19,6 +19,13 @@ public static class DomainInjection
         TabelaDePreco();
         MovimentacaoDeCaixa();
         MovimentacaoDeVeiculo();
+        Vaga();
+
+    }
+
+    private static void Vaga()
+    {
+        _service.AddTransient<IGerenciadorDeVaga, GerenciadorDeVaga>();
     }
 
     private static void MovimentacaoDeVeiculo()
