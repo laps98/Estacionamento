@@ -1,8 +1,8 @@
 ﻿using Estacionamento.Domain.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Web.Controllers;
-
 public class ContaController : Controller
 {
     private readonly IEstacionamentoContext _context;
@@ -11,9 +11,10 @@ public class ContaController : Controller
     {
         _context = context;
     }
-
+    
     public IActionResult Index()
     {
+
         return View();
     }
 
@@ -34,6 +35,7 @@ public class ContaController : Controller
         //TempData["login"] = usuario.Email;
 
         HttpContext.Session.SetString("_UserId", usuario.Id.ToString());
+        HttpContext.Session.SetString("_Nome", usuario.Name.ToString());
         HttpContext.Session.SetString("_Login", usuario.Email.ToString());
 
         TempData["loginError"] = false;
@@ -49,6 +51,7 @@ public class ContaController : Controller
         //TempData["login"] = null;
 
         HttpContext.Session.Remove("_UserId");
+        HttpContext.Session.Remove("_Nome");
         HttpContext.Session.Remove("_Login");
 
         TempData["loginError"] = null;

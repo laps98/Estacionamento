@@ -10,8 +10,13 @@ public static class AutenticationConfiguration
             options.IdleTimeout = TimeSpan.FromSeconds(10);
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
+
         });
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddControllersWithViews(options =>
+        {
+            options.Filters.Add(typeof(RequestAuthenticationFilter));
+        });
         builder.Services.AddRazorPages();
     }
 }

@@ -1,5 +1,5 @@
 ﻿@{
-    var login = Context.Session.GetString("_Login");
+    var login = Context.Session.GetString("_Nome");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -32,8 +32,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="TabelaDePreco" asp-action="Index">Tabela de preço</a>
                         </li>
-@*                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MovimentacaoDeVeiculo" asp-action="Index">Entrada de veículo</a>
+                        @*                         <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="MovimentacaoDeVeiculo" asp-action="Index">Entrada de veículo</a>
                         </li> *@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="MovimentacaoDeCaixa" asp-action="Index">Caixa</a>
@@ -45,14 +45,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuário</a>
                         </li>
                         @**@
-                        @if(login != null){
-                            
-                        <li class="nav-item">
-                            <span>@login</span>
-                        </li>
-                        }
-
                     </ul>
+                    <div>
+                        @if (login != null)
+                        {
+
+                            <div class="nav-item">
+                                <span>@login</span>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>

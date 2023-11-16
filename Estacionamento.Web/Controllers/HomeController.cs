@@ -3,6 +3,7 @@ using Estacionamento.Domain.Context;
 using Estacionamento.Domain.MovimentacoesDeVeiculo;
 using Estacionamento.Domain.Pagination;
 using Estacionamento.Models;
+using Estacionamento.Web.Configurations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Controllers;
 
+[CheckSessionIsAvailable]
 public class HomeController : Controller
 {
     private readonly IEstacionamentoContext _context;
