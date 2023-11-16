@@ -8,12 +8,12 @@ public class CheckSessionIsAvailable : ActionFilterAttribute
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
         base.OnActionExecuting(filterContext);
-        if (filterContext.HttpContext == null || filterContext.HttpContext.Session.GetString("UserID") == null)
+        if (filterContext.HttpContext == null || filterContext.HttpContext.Session.GetString("_UserId") == null)
         {
             //return RedirectToAction("Index", "Login");
             filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
             {
-                controller = "Login",
+                controller = "Conta",
                 action = "Index"
             }));
         }
