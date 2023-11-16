@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Reflection;
 
 namespace Estacionamento.Web.Configurations;
 
@@ -10,26 +13,22 @@ public class RequestAuthenticationFilter : IActionFilter
     {
         _httpContextAccessor = httpContextAccessor;
     }
-    /// 
 
-    /// OnActionExecuting
-    /// 
-
-    /// 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        var session = _httpContextAccessor.HttpContext.Session.Get("UserId");
+        var controllerType = context.Controller.GetType();
+        var hasAnonymousInAction = (context.ActionDescriptor as ControllerActionDescriptor).MethodInfo.GetCustomAttributes<AllowAnonymousAttribute>().Any();
+        var hasAnonymousInController = controllerType.GetCustomAttribute<AllowAnonymousAttribute>() != null;
+
+        if (hasAnonymousInController || hasAnonymousInAction)
+            return;
+
+        var session = _httpContextAccessor.HttpContext.Session.Get("_UserId");
         if (session == null)
         {
             context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "Conta" }));
         }
     }
-    /// 
-
-    /// OnActionExecuted
-    /// 
-
-    /// 
     public void OnActionExecuted(ActionExecutedContext context)
     {
     }

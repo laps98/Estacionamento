@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Web.Controllers;
+
+[AllowAnonymous]
 public class ContaController : Controller
 {
     private readonly IEstacionamentoContext _context;
@@ -11,7 +13,8 @@ public class ContaController : Controller
     {
         _context = context;
     }
-    
+
+    [AllowAnonymous]
     public IActionResult Index()
     {
 
@@ -39,7 +42,7 @@ public class ContaController : Controller
         HttpContext.Session.SetString("_Login", usuario.Email.ToString());
 
         TempData["loginError"] = false;
-        return RedirectToAction("Index","Home");
+        return RedirectToAction("Index", "Home");
 
         //return View();
     }
