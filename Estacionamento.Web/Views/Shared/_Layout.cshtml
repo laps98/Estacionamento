@@ -1,5 +1,7 @@
 ﻿@{
     var login = Context.Session.GetString("_Nome");
+    var id = Context.Session.GetString("_UserId");
+    var admin = Context.Session.GetString("_Admin") == "True";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -13,52 +15,65 @@
     <link rel="stylesheet" href="~/css/css_helper.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Estacionamento</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Baixar">Baixa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="TabelaDePreco" asp-action="Index">Tabela de preço</a>
-                        </li>
-                        @*                         <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="MovimentacaoDeVeiculo" asp-action="Index">Entrada de veículo</a>
-                        </li> *@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MovimentacaoDeCaixa" asp-action="Index">Caixa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vaga" asp-action="Index">Vaga</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuário</a>
-                        </li>
-                        @**@
-                    </ul>
-                    <div>
-                        @if (login != null)
-                        {
-
-                            <div class="nav-item">
-                                <span>@login</span>
-                            </div>
-                        }
+    @if (login != null)
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Estacionamento</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Baixar">Baixa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TabelaDePreco" asp-action="Index">Tabela de preço</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="MovimentacaoDeCaixa" asp-action="Index">Caixa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Vaga" asp-action="Index">Vaga</a>
+                            </li>
+                            @if (admin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuário</a>
+                                </li>
+                            }
+                        </ul>
+                        <div class="collapse navbar-collapse">
+                            <ul class="me-auto"></ul>
+                            <ul class="navbar-nav">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @login
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
+                                        <li>
+                                            <a class="dropdown-item" asp-route-id="@id" asp-controller="Conta" asp-action="Create">Editar</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("Logout", "Conta")">
+                                                Sair
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
+    }
     <div class="container">
         @if (TempData["MensagemSucesso"] != null)
         {
@@ -78,10 +93,7 @@
             @RenderBody()
         </main>
     </div>
-
-
     @*
-
     <footer class="border-top footer text-muted">
     <div class="container">
     &copy; 2023 - Estacionamento - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

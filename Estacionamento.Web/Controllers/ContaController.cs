@@ -1,4 +1,6 @@
 ﻿using Estacionamento.Domain.Context;
+using Estacionamento.Domain.Usuarios;
+using Estacionamento.Domain.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +10,12 @@ namespace Estacionamento.Web.Controllers;
 public class ContaController : Controller
 {
     private readonly IEstacionamentoContext _context;
+    private readonly IGerenciadorDeUsuario _gerenciador;
 
-    public ContaController(IEstacionamentoContext context)
+    public ContaController(IEstacionamentoContext context, IGerenciadorDeUsuario gerenciador)
     {
         _context = context;
+        _gerenciador = gerenciador;
     }
 
     [AllowAnonymous]
@@ -40,6 +44,7 @@ public class ContaController : Controller
         HttpContext.Session.SetString("_UserId", usuario.Id.ToString());
         HttpContext.Session.SetString("_Nome", usuario.Name.ToString());
         HttpContext.Session.SetString("_Login", usuario.Email.ToString());
+        HttpContext.Session.SetString("_Admin", usuario.Administrador.ToString());
 
         TempData["loginError"] = false;
         return RedirectToAction("Index", "Home");
@@ -56,16 +61,48 @@ public class ContaController : Controller
         HttpContext.Session.Remove("_UserId");
         HttpContext.Session.Remove("_Nome");
         HttpContext.Session.Remove("_Login");
+        HttpContext.Session.Remove("_Admin");
 
         TempData["loginError"] = null;
 
-        return Redirect("Login");
+        return Redirect("Index");
+    }
+
+    public IActionResult Create(int id = 0)
+    {
+        if (id != 0)
+        {
+            return View(_gerenciador.Get(id));
+        }
+
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(Usuario usuario)
+    {
+        try
+        {
+            if (usuario.Id == 0)
+            {
+                _gerenciador.Save(usuario);
+                TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
+                return RedirectToAction("Index");
+            }
+            if (ModelState.IsValid)
+            {
+                _gerenciador.Update(usuario);
+                TempData["MensagemSucesso"] = "Usuário alterado com sucesso";
+                return RedirectToAction("Index");
+            }
+            return View("Create", usuario);
+        }
+        catch (Exception ex)
+        {
+            TempData["MensagemErro"] = ex;
+            return View("Create", usuario);
+        }
     }
 }
 
 
-public sealed record LoginRequest
-{
-    public string Login { get; set; }
-    public string Senha { get; set; }
-}
