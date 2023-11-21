@@ -44,12 +44,17 @@ namespace Estacionamento.Context.Migrations
                     b.Property<int?>("IdTabelaDePerco")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdMovimentacaoDeVeiculo");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("MovimentacaoDeCaixa");
                 });
@@ -72,6 +77,9 @@ namespace Estacionamento.Context.Migrations
                     b.Property<int>("IdTabelaDePreco")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<int?>("IdVaga")
                         .HasColumnType("int");
 
@@ -92,6 +100,8 @@ namespace Estacionamento.Context.Migrations
 
                     b.HasIndex("IdTabelaDePreco");
 
+                    b.HasIndex("IdUsuario");
+
                     b.HasIndex("IdVaga");
 
                     b.ToTable("MovimentacaoDeVeiculo");
@@ -107,6 +117,9 @@ namespace Estacionamento.Context.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<int>("Periodo")
                         .HasColumnType("int");
 
@@ -115,6 +128,8 @@ namespace Estacionamento.Context.Migrations
                         .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("TabelaDePreco");
                 });
@@ -151,11 +166,16 @@ namespace Estacionamento.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("Vaga");
                 });
@@ -166,7 +186,15 @@ namespace Estacionamento.Context.Migrations
                         .WithMany("MovimentacoesDeCaixa")
                         .HasForeignKey("IdMovimentacaoDeVeiculo");
 
+                    b.HasOne("Estacionamento.Domain.Usuarios.Usuario", "Usuario")
+                        .WithMany("MovimentacoesDeCaixa")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("MovimentacaoDeVeiculo");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Estacionamento.Domain.MovimentacoesDeVeiculo.MovimentacaoDeVeiculo", b =>
@@ -177,13 +205,43 @@ namespace Estacionamento.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Estacionamento.Domain.Usuarios.Usuario", "Usuario")
+                        .WithMany("MovimentacoesDeVeiculo")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Estacionamento.Domain.Vagas.Vaga", "Vaga")
                         .WithMany("MovimentacoesDeVeiculo")
                         .HasForeignKey("IdVaga");
 
                     b.Navigation("TabelaDePreco");
 
+                    b.Navigation("Usuario");
+
                     b.Navigation("Vaga");
+                });
+
+            modelBuilder.Entity("Estacionamento.Domain.TabelasDePreco.TabelaDePreco", b =>
+                {
+                    b.HasOne("Estacionamento.Domain.Usuarios.Usuario", "Usuario")
+                        .WithMany("TabelasDePreco")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Estacionamento.Domain.Vagas.Vaga", b =>
+                {
+                    b.HasOne("Estacionamento.Domain.Usuarios.Usuario", "Usuario")
+                        .WithMany("Vagas")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Estacionamento.Domain.MovimentacoesDeVeiculo.MovimentacaoDeVeiculo", b =>
@@ -194,6 +252,17 @@ namespace Estacionamento.Context.Migrations
             modelBuilder.Entity("Estacionamento.Domain.TabelasDePreco.TabelaDePreco", b =>
                 {
                     b.Navigation("MovimentacoesDeVeiculo");
+                });
+
+            modelBuilder.Entity("Estacionamento.Domain.Usuarios.Usuario", b =>
+                {
+                    b.Navigation("MovimentacoesDeCaixa");
+
+                    b.Navigation("MovimentacoesDeVeiculo");
+
+                    b.Navigation("TabelasDePreco");
+
+                    b.Navigation("Vagas");
                 });
 
             modelBuilder.Entity("Estacionamento.Domain.Vagas.Vaga", b =>

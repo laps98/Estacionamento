@@ -9,5 +9,7 @@ internal class VagaTypeConfiguration : IEntityTypeConfiguration<Vaga>
     public void Configure(EntityTypeBuilder<Vaga> builder)
     {
         builder.HasKey(q => q.Id);
+
+        builder.HasOne(q => q.Usuario).WithMany(q => q.Vagas).HasForeignKey(q => q.IdUsuario);
     }
 }

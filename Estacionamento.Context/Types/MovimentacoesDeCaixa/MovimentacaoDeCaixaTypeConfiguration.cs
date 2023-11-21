@@ -13,6 +13,8 @@ internal class MovimentacaoDeCaixaTypeConfiguration : IEntityTypeConfiguration<M
         builder.Property(q => q.IdMovimentacaoDeVeiculo).IsRequired(false);
         builder.Property(q => q.IdTabelaDePerco).IsRequired(false);
 
-        builder.HasOne(q => q.MovimentacaoDeVeiculo).WithMany(q => q.MovimentacoesDeCaixa).HasForeignKey(q => q.IdMovimentacaoDeVeiculo);
+        builder.HasOne(q => q.MovimentacaoDeVeiculo).WithMany(q => q.MovimentacoesDeCaixa).HasForeignKey(q => q.IdMovimentacaoDeVeiculo).IsRequired(false);
+        builder.HasOne(q => q.Usuario).WithMany(q => q.MovimentacoesDeCaixa).HasForeignKey(q => q.IdUsuario);
+
     }
 }

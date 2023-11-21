@@ -11,5 +11,8 @@ internal class TabelaDePrecoTypeConfiguration : IEntityTypeConfiguration<TabelaD
         builder.HasKey(q => q.Id);
 
         builder.Property(q => q.Valor).HasPrecision(5,2);
+
+        builder.HasOne(q => q.Usuario).WithMany(q => q.TabelasDePreco).HasForeignKey(q => q.IdUsuario);
+
     }
 }

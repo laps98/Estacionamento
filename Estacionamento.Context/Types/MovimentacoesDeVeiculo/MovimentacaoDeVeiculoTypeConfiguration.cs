@@ -12,5 +12,7 @@ internal class MovimentacaoDeVeiculoTypeConfiguration : IEntityTypeConfiguration
 
         builder.HasOne(q => q.TabelaDePreco).WithMany(q => q.MovimentacoesDeVeiculo).HasForeignKey(q => q.IdTabelaDePreco);
         builder.HasOne(q => q.Vaga).WithMany(q => q.MovimentacoesDeVeiculo).HasForeignKey(q => q.IdVaga).IsRequired(false);
+        builder.HasOne(q => q.Usuario).WithMany(q => q.MovimentacoesDeVeiculo).HasForeignKey(q => q.IdUsuario);
+
     }
 }

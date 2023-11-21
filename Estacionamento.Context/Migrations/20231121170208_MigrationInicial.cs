@@ -16,7 +16,7 @@ namespace Estacionamento.Context.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Cliente",
+                name: "Usuario",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -25,26 +25,13 @@ namespace Estacionamento.Context.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Cep = table.Column<string>(type: "longtext", nullable: false)
+                    Senha = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Logradouro = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Numero = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Bairro = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Cidade = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Uf = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Complemento = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Observacao = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Administrador = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cliente", x => x.Id);
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -54,15 +41,43 @@ namespace Estacionamento.Context.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
                     Descricao = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Valor = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
-                    Data = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Periodo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TabelaDePreco", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TabelaDePreco_Usuario_IdUsuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Vaga",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    Nome = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vaga", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vaga_Usuario_IdUsuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -73,6 +88,8 @@ namespace Estacionamento.Context.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdTabelaDePreco = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    IdVaga = table.Column<int>(type: "int", nullable: true),
                     Placa = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Observacao = table.Column<string>(type: "longtext", nullable: true)
@@ -92,6 +109,17 @@ namespace Estacionamento.Context.Migrations
                         principalTable: "TabelaDePreco",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovimentacaoDeVeiculo_Usuario_IdUsuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovimentacaoDeVeiculo_Vaga_IdVaga",
+                        column: x => x.IdVaga,
+                        principalTable: "Vaga",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -101,6 +129,7 @@ namespace Estacionamento.Context.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
                     IdMovimentacaoDeVeiculo = table.Column<int>(type: "int", nullable: true),
                     IdTabelaDePerco = table.Column<int>(type: "int", nullable: true),
                     Descricao = table.Column<string>(type: "longtext", nullable: false)
@@ -117,6 +146,12 @@ namespace Estacionamento.Context.Migrations
                         column: x => x.IdMovimentacaoDeVeiculo,
                         principalTable: "MovimentacaoDeVeiculo",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_MovimentacaoDeCaixa_Usuario_IdUsuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -126,17 +161,39 @@ namespace Estacionamento.Context.Migrations
                 column: "IdMovimentacaoDeVeiculo");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MovimentacaoDeCaixa_IdUsuario",
+                table: "MovimentacaoDeCaixa",
+                column: "IdUsuario");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MovimentacaoDeVeiculo_IdTabelaDePreco",
                 table: "MovimentacaoDeVeiculo",
                 column: "IdTabelaDePreco");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovimentacaoDeVeiculo_IdUsuario",
+                table: "MovimentacaoDeVeiculo",
+                column: "IdUsuario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovimentacaoDeVeiculo_IdVaga",
+                table: "MovimentacaoDeVeiculo",
+                column: "IdVaga");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TabelaDePreco_IdUsuario",
+                table: "TabelaDePreco",
+                column: "IdUsuario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vaga_IdUsuario",
+                table: "Vaga",
+                column: "IdUsuario");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Cliente");
-
             migrationBuilder.DropTable(
                 name: "MovimentacaoDeCaixa");
 
@@ -145,6 +202,12 @@ namespace Estacionamento.Context.Migrations
 
             migrationBuilder.DropTable(
                 name: "TabelaDePreco");
+
+            migrationBuilder.DropTable(
+                name: "Vaga");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
         }
     }
 }
