@@ -1,6 +1,7 @@
 ﻿using Estacionamento.Domain.Context;
 using Estacionamento.Domain.Pagination;
 using Estacionamento.Domain.TabelasDePreco;
+using Estacionamento.Domain.Vagas;
 using Microsoft.AspNetCore.Mvc;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
@@ -40,10 +41,13 @@ public class TabelaDePrecoController : Controller
         {
             if (tabela.Id == 0)
             {
+                var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+                tabela.IdUsuario = idUsuario;
                 _gerenciador.Save(tabela);
                 TempData["MensagemSucesso"] = "Tabela de preço cadastrada com sucesso";
                 return RedirectToAction("Index");
             }
+            ModelState.Remove("Usuario");
             if (ModelState.IsValid)
             {
                 _gerenciador.Update(tabela);

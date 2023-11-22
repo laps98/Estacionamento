@@ -37,28 +37,31 @@ public class VagaController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Vaga Vaga)
+    public IActionResult Create(Vaga vaga)
     {
         try
         {
-            if (Vaga.Id == 0)
+            if (vaga.Id == 0)
             {
-                _gerenciador.Save(Vaga);
+                var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+                vaga.IdUsuario = idUsuario;
+                _gerenciador.Save(vaga);
                 TempData["MensagemSucesso"] = "Vaga cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
+            ModelState.Remove("Usuario");
             if (ModelState.IsValid)
             {
-                _gerenciador.Update(Vaga);
+                _gerenciador.Update(vaga);
                 TempData["MensagemSucesso"] = "Vaga alterado com sucesso";
                 return RedirectToAction("Index");
             }
-            return View("Create", Vaga);
+            return View("Create", vaga);
         }
         catch (Exception ex)
         {
             TempData["MensagemErro"] = ex;
-            return View("Create", Vaga);
+            return View("Create", vaga);
         }
     }
 }

@@ -47,10 +47,13 @@ public class MovimentacaoDeVeiculoController : Controller
         {
             if (movimentacao.Id == 0)
             {
+                var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+                movimentacao.IdUsuario = idUsuario;
                 _gerenciador.Save(movimentacao);
                 TempData["MensagemSucesso"] = "Movimentação cadastrada com sucesso";
                 return RedirectToAction("Index");
             }
+            ModelState.Remove("Usuario");
             if (ModelState.IsValid)
             {
                 _gerenciador.Update(movimentacao);

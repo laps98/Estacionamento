@@ -8,6 +8,8 @@
 }
 <form asp-controller="Vaga" asp-action="Create" method="post">
     <input type="hidden" asp-for="Id">
+    <input type="hidden" asp-for="IdUsuario">
+    
     <div>
         <h3>@ViewBag.Title</h3>
         <div class="card">
