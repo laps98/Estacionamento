@@ -80,6 +80,29 @@ public class HomeController : Controller
         {
             if (movimentacao.Id == 0)
             {
+                var hoje = DateTime.Now;
+                var movimentacaoDoBanco = _context.MovimentacoesDeVeiculo;
+
+                var vagaOcupada = movimentacaoDoBanco.FirstOrDefault(q =>
+                    q.DataDeEntrada.Date == hoje.Date &&
+                    q.DataDeSaida == null &&
+                    q.IdVaga == movimentacao.IdVaga);
+                var placaJaRegistrada = movimentacaoDoBanco.FirstOrDefault(q =>
+                    q.DataDeEntrada.Date == hoje.Date &&
+                    q.DataDeSaida == null &&
+                    q.Placa == movimentacao.Placa);
+                if (vagaOcupada != null)
+                {
+                    TempData["MensagemErro"] = "Esta vaga já está ocupada";
+                    return RedirectToAction("Index", movimentacao);
+                }
+                if (placaJaRegistrada != null)
+                {
+                    TempData["MensagemErro"] = "Esta placa já está registrada";
+                    return RedirectToAction("Index", movimentacao);
+                }
+
+
                 var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
                 movimentacao.IdUsuario = idUsuario;
                 _gerenciador.Save(movimentacao);
@@ -173,7 +196,7 @@ public class HomeController : Controller
     }
     private void DropdownVaga(MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
     {
-        var items = _context.Vagas.Select(q => new { q.Id, q.Nome});
+        var items = _context.Vagas.Select(q => new { q.Id, q.Nome });
         ViewBag.Vagas = new SelectList(items, "Id", "Nome", movimentacaoDeVeiculo?.IdVaga);
     }
 }
