@@ -7,7 +7,21 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-builder.AddAutenticationConfiguration();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(typeof(RequestAuthenticationFilter));
+});
+
+builder.Services.AddRazorPages();
 
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 services.AddEntityFrameworkSqlServer()

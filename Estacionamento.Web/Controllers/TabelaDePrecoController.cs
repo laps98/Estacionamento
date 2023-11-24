@@ -3,6 +3,7 @@ using Estacionamento.Domain.Pagination;
 using Estacionamento.Domain.TabelasDePreco;
 using Estacionamento.Domain.Vagas;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using static Estacionamento.Domain.Pagination.PaginationHelper;
 
 namespace Estacionamento.Web.Controllers;

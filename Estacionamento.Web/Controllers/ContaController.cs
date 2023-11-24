@@ -1,6 +1,7 @@
 ﻿using Estacionamento.Domain.Context;
 using Estacionamento.Domain.Usuarios;
 using Estacionamento.Domain.ViewModel;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,9 @@ public class ContaController : Controller
     [HttpPost]
     public IActionResult Index(LoginRequest request)
     {
+        //HttpContext.SignInAsync();
+
+
         var usuario = _context.Usuarios.FirstOrDefault(q => q.Email == request.Login);
 
         //if (usuario == null || !PasswordHelper.VerifyHashedPassword(usuario.Senha, request.Senha))
