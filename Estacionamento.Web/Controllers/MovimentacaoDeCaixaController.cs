@@ -19,8 +19,8 @@ public class MovimentacaoDeCaixaController : Controller
 
     public IActionResult Index(QueryFilter filter)
     {
-        var lista = _context.MovimentacoesDeCaixa;
-
+        var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+        var lista = _context.MovimentacoesDeCaixa.Where(q => q.IdUsuario == idUsuario);
         var request = new ResponsePagination<MovimentacaoDeCaixa>(filter).Buscar(lista, filter);
 
         return View(request);

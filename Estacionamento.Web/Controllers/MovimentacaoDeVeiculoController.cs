@@ -17,8 +17,8 @@ public class MovimentacaoDeVeiculoController : Controller
     }
     public IActionResult Index(QueryFilter filter)
     {
-        var lista = _context.MovimentacoesDeVeiculo;
-
+        var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+        var lista = _context.MovimentacoesDeVeiculo.Where(q => q.IdUsuario == idUsuario);
         var request = new ResponsePagination<MovimentacaoDeVeiculo>(filter).Buscar(lista, filter);
 
         return View(request);

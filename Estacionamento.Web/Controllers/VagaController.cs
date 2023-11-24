@@ -19,8 +19,8 @@ public class VagaController : Controller
 
     public IActionResult Index(QueryFilter filter)
     {
-        var lista = _context.Vagas;
-
+        var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+        var lista = _context.Vagas.Where(q => q.IdUsuario == idUsuario);
         var request = new ResponsePagination<Vaga>(filter).Buscar(lista, filter);
 
         return View(request);

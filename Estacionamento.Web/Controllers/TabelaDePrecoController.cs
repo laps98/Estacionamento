@@ -21,7 +21,8 @@ public class TabelaDePrecoController : Controller
 
     public IActionResult Index(QueryFilter filter)
     {
-        var lista =  _context.TabelasDePreco;
+        var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+        var lista =  _context.TabelasDePreco.Where(q => q.IdUsuario == idUsuario);
         var request = new ResponsePagination<TabelaDePreco>(filter).Buscar(lista, filter);
 
         return View(request);

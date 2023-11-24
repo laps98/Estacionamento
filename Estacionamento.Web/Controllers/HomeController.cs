@@ -27,7 +27,8 @@ public class HomeController : Controller
     public IActionResult Index(QueryFilter filter)
     {
         var hoje = DateTime.Now;
-        var lista = _context.MovimentacoesDeVeiculo.AsNoTracking().Where(q => q.DataDeEntrada.Date == hoje.Date);
+        var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+        var lista = _context.MovimentacoesDeVeiculo.AsNoTracking().Where(q => q.DataDeEntrada.Date == hoje.Date && q.IdUsuario == idUsuario);
         var response = new ResponsePagination<MovimentacaoDeVeiculo>(filter).Buscar(lista, filter);
 
         DropdownTabelaDePreco();
