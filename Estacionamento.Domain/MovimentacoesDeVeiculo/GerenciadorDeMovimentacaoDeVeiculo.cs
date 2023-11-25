@@ -76,7 +76,8 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
         var movimentacao = _context.MovimentacoesDeVeiculo.FirstOrDefault(q => q.Placa == placa &&
                                                                                q.DataDeEntrada.Date == hoje.Date &&
                                                                                q.DataDeSaida == null);
-        return CalcularMovimentacao(hoje, movimentacao);
+        var retorno = CalcularMovimentacao(hoje, movimentacao);
+        return retorno;
     }
     public MovimentacaoDeVeiculo CalcularPelaMovimentacaoDoVeiculo(MovimentacaoDeVeiculo movimentacao)
     {
@@ -100,6 +101,8 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
         {
             Id = movimentacao.Id,
             IdTabelaDePreco = movimentacao.IdTabelaDePreco,
+            IdVaga = movimentacao.IdVaga,
+            IdUsuario = movimentacao.IdUsuario,
             Placa = movimentacao.Placa,
             Observacao = movimentacao.Observacao,
             Fluxo = movimentacao.Fluxo,

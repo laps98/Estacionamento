@@ -147,35 +147,6 @@ public class HomeController : Controller
             return RedirectToAction("Baixar");
         }
     }
-    public IActionResult CalcularDaHome(MovimentacaoDeVeiculo movimentacao)
-    {
-        try
-        {
-            var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
-
-            if (movimentacao != null)
-            {
-                movimentacao = _gerenciador.CalcularPelaMovimentacaoDoVeiculo(movimentacao);
-
-                DropdownTabelaDePreco(idUsuario, movimentacao);
-                DropdownVaga(idUsuario, movimentacao);
-                return RedirectToAction("Baixar", movimentacao);
-            }
-
-            return RedirectToAction("Baixar");
-        }
-        catch (Exception ex)
-        {
-            TempData["MensagemErro"] = ex.Message;
-            return RedirectToAction("Baixar");
-        }
-    }
-    public IActionResult Delete(int id)
-    {
-        _gerenciador.Delete(id);
-
-        return RedirectToAction("Index");
-    }
     [HttpPost]
     public IActionResult BaixarMovimentacao(MovimentacaoDeVeiculo? movimentacao)
     {
@@ -206,5 +177,34 @@ public class HomeController : Controller
     {
         var items = _context.Vagas.Where(q => q.IdUsuario == idUsuario).Select(q => new { q.Id, q.Nome });
         ViewBag.Vagas = new SelectList(items, "Id", "Nome", movimentacaoDeVeiculo?.IdVaga);
+    }
+    public IActionResult Delete(int id)
+    {
+        _gerenciador.Delete(id);
+
+        return RedirectToAction("Index");
+    }
+    public IActionResult CalcularDaHome(MovimentacaoDeVeiculo movimentacao)
+    {
+        try
+        {
+            var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+
+            if (movimentacao != null)
+            {
+                movimentacao = _gerenciador.CalcularPelaMovimentacaoDoVeiculo(movimentacao);
+
+                DropdownTabelaDePreco(idUsuario, movimentacao);
+                DropdownVaga(idUsuario, movimentacao);
+                return RedirectToAction("Baixar", movimentacao);
+            }
+
+            return RedirectToAction("Baixar");
+        }
+        catch (Exception ex)
+        {
+            TempData["MensagemErro"] = ex.Message;
+            return RedirectToAction("Baixar");
+        }
     }
 }
