@@ -31,8 +31,8 @@ public class HomeController : Controller
         var lista = _context.MovimentacoesDeVeiculo.AsNoTracking().Where(q => q.DataDeEntrada.Date == hoje.Date && q.IdUsuario == idUsuario);
         var response = new ResponsePagination<MovimentacaoDeVeiculo>(filter).Buscar(lista, filter);
 
-        DropdownTabelaDePreco();
-        DropdownVaga();
+        DropdownTabelaDePreco(idUsuario);
+        DropdownVaga(idUsuario);
         var movimentacaoDeVeiculo = new MovimentacaoDeVeiculo
         {
             DataDeEntrada = DateTimeHelper.Atual(hoje)
@@ -44,24 +44,27 @@ public class HomeController : Controller
     }
     public IActionResult BaixarDaHome(int id)
     {
+        var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+
         var movimentacaoDeVeiculo = _context.MovimentacoesDeVeiculo.First(q => q.Id == id);
-        DropdownTabelaDePreco(movimentacaoDeVeiculo);
-        DropdownVaga(movimentacaoDeVeiculo);
+        DropdownTabelaDePreco(idUsuario, movimentacaoDeVeiculo);
+        DropdownVaga(idUsuario, movimentacaoDeVeiculo);
 
         return RedirectToAction("CalcularDaHome", movimentacaoDeVeiculo);
     }
     public IActionResult Baixar(MovimentacaoDeVeiculo? movimentacaoDeVeiculo)
     {
+        var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
 
         if (movimentacaoDeVeiculo != null && movimentacaoDeVeiculo.Id != 0)
         {
-            DropdownTabelaDePreco(movimentacaoDeVeiculo);
-            DropdownVaga(movimentacaoDeVeiculo);
+            DropdownTabelaDePreco(idUsuario, movimentacaoDeVeiculo);
+            DropdownVaga(idUsuario, movimentacaoDeVeiculo);
 
             return View(movimentacaoDeVeiculo);
         }
-        DropdownTabelaDePreco();
-        DropdownVaga();
+        DropdownTabelaDePreco(idUsuario);
+        DropdownVaga(idUsuario);
         return View();
 
     }
@@ -125,12 +128,14 @@ public class HomeController : Controller
     {
         try
         {
+            var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+
             if (!placa.IsNullOrEmpty())
             {
                 var movimentacao = _gerenciador.CalcularPorPlaca(placa);
 
-                DropdownTabelaDePreco(movimentacao);
-                DropdownVaga(movimentacao);
+                DropdownTabelaDePreco(idUsuario,movimentacao);
+                DropdownVaga(idUsuario,movimentacao);
                 return View("Baixar", movimentacao);
             }
 
@@ -146,12 +151,14 @@ public class HomeController : Controller
     {
         try
         {
+            var idUsuario = int.Parse(HttpContext.Session.GetString("_UserId"));
+
             if (movimentacao != null)
             {
                 movimentacao = _gerenciador.CalcularPelaMovimentacaoDoVeiculo(movimentacao);
 
-                DropdownTabelaDePreco(movimentacao);
-                DropdownVaga(movimentacao);
+                DropdownTabelaDePreco(idUsuario, movimentacao);
+                DropdownVaga(idUsuario, movimentacao);
                 return RedirectToAction("Baixar", movimentacao);
             }
 
@@ -190,14 +197,14 @@ public class HomeController : Controller
             return RedirectToAction("Baixar", movimentacao);
         }
     }
-    private void DropdownTabelaDePreco(MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
+    private void DropdownTabelaDePreco(int idUsuario, MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
     {
-        var items = _context.TabelasDePreco.Select(q => new { q.Id, q.Descricao });
+        var items = _context.TabelasDePreco.Where(q => q.IdUsuario == idUsuario).Select(q => new { q.Id, q.Descricao });
         ViewBag.TabelaDePreco = new SelectList(items, "Id", "Descricao", movimentacaoDeVeiculo?.IdTabelaDePreco);
     }
-    private void DropdownVaga(MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
+    private void DropdownVaga(int idUsuario, MovimentacaoDeVeiculo? movimentacaoDeVeiculo = null)
     {
-        var items = _context.Vagas.Select(q => new { q.Id, q.Nome });
+        var items = _context.Vagas.Where(q => q.IdUsuario == idUsuario).Select(q => new { q.Id, q.Nome });
         ViewBag.Vagas = new SelectList(items, "Id", "Nome", movimentacaoDeVeiculo?.IdVaga);
     }
 }
