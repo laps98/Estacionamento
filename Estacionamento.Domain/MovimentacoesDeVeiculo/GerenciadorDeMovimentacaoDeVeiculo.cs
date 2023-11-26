@@ -124,6 +124,7 @@ internal class GerenciadorDeMovimentacaoDeVeiculo : IGerenciadorDeMovimentacaoDe
         var caixa = new MovimentacaoDeCaixa
         {
             IdMovimentacaoDeVeiculo = movimentacao.Id,
+            IdUsuario = movimentacao.IdUsuario,
             Descricao = $"Movimentação de veículo - {movimentacao.Placa}",
             Valor = movimentacao.Valor,
             Fluxo = Fluxo.Entrada,
