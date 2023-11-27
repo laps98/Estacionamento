@@ -89,6 +89,12 @@ public class ContaController : Controller
         {
             if (usuario.Id == 0)
             {
+                var usuarioDoBanco = _context.Usuarios.FirstOrDefault(q => q.Email == usuario.Email);
+                if (usuarioDoBanco != null)
+                {
+                    TempData["MensagemErro"] = "E-mail já utilizado";
+                    return View("Create", usuario);
+                }
                 _gerenciador.Save(usuario);
                 TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
                 return RedirectToAction("Index");
